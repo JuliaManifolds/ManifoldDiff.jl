@@ -19,4 +19,6 @@ using ManifoldsBase:
     _read
 
 
+include("riemannian_diff.jl")
+
 end # module

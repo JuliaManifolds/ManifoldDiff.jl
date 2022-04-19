@@ -8,7 +8,5 @@ using Manifolds
 using ManifoldsBase
 using RecursiveArrayTools
 
-using ManifoldDiff:
-    ManifoldFunctionWrapper, RiemannianGradientConfig, RiemannianJacobianConfig
-
+include("differentiation.jl")
 
