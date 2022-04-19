@@ -105,7 +105,7 @@ end
 
 function differential(M::AbstractManifold, f, t::Real, backend::TangentDiffBackend)
     p = f(t)
-    onb_coords = Manifolds._derivative(zero(number_eltype(p)), backend.diff_backend) do h
+    onb_coords = ManifoldDiff._derivative(zero(number_eltype(p)), backend.diff_backend) do h
         return get_coordinates(
             M,
             p,
@@ -118,7 +118,7 @@ end
 
 function differential!(M::AbstractManifold, f, X, t::Real, backend::TangentDiffBackend)
     p = f(t)
-    onb_coords = Manifolds._derivative(zero(number_eltype(p)), backend.diff_backend) do h
+    onb_coords = ManifoldDiff._derivative(zero(number_eltype(p)), backend.diff_backend) do h
         return get_coordinates(
             M,
             p,
@@ -159,7 +159,7 @@ a function on the tangent space, so we can also use other (Euclidean) backends
 """
 function gradient(M::AbstractManifold, f, p, backend::TangentDiffBackend)
     X = get_coordinates(M, p, zero_vector(M, p), backend.basis_arg)
-    onb_coords = Manifolds._gradient(X, backend.diff_backend) do Y
+    onb_coords = ManifoldDiff._gradient(X, backend.diff_backend) do Y
         return f(retract(M, p, get_vector(M, p, Y, backend.basis_arg), backend.retraction))
     end
     return get_vector(M, p, onb_coords, backend.basis_arg)
@@ -167,7 +167,7 @@ end
 
 function gradient!(M::AbstractManifold, f, X, p, backend::TangentDiffBackend)
     X2 = get_coordinates(M, p, zero_vector(M, p), backend.basis_arg)
-    onb_coords = Manifolds._gradient(X2, backend.diff_backend) do Y
+    onb_coords = ManifoldDiff._gradient(X2, backend.diff_backend) do Y
         return f(retract(M, p, get_vector(M, p, Y, backend.basis_arg), backend.retraction))
     end
     return get_vector!(M, X, p, onb_coords, backend.basis_arg)
@@ -206,13 +206,13 @@ struct RiemannianProjectionBackend{TADBackend<:AbstractDiffBackend} <:
 end
 
 function gradient(M::AbstractManifold, f, p, backend::RiemannianProjectionBackend)
-    amb_grad = Manifolds._gradient(f, p, backend.diff_backend)
+    amb_grad = ManifoldDiff._gradient(f, p, backend.diff_backend)
     return change_representer(M, EuclideanMetric(), p, project(M, p, amb_grad))
 end
 
 function gradient!(M::AbstractManifold, f, X, p, backend::RiemannianProjectionBackend)
     amb_grad = embed(M, p, X)
-    Manifolds._gradient!(f, amb_grad, p, backend.diff_backend)
+    ManifoldDiff._gradient!(f, amb_grad, p, backend.diff_backend)
     project!(M, X, p, amb_grad)
     return change_representer!(M, X, EuclideanMetric(), p, X)
 end
@@ -226,7 +226,7 @@ function jacobian(
 )
     X = get_coordinates(M_dom, p, zero_vector(M_dom, p), backend.basis_arg)
     q = f(p)
-    onb_coords = Manifolds._jacobian(X, backend.diff_backend) do Y
+    onb_coords = ManifoldDiff._jacobian(X, backend.diff_backend) do Y
         return get_coordinates(
             M_codom,
             q,

@@ -7,10 +7,7 @@ makedocs(
     modules = [ManifoldDiffDev],
     authors = "Seth Axen, Mateusz Baran, Ronny Bergmann, and contributors.",
     sitename = "ManifoldDiff.jl",
-    pages = [
-        "Home" => "index.md",
-        "Library" => "library.md",
-    ],
+    pages = ["Home" => "index.md", "Library" => "library.md"],
 )
 deploydocs(
     repo = "github.com/JuliaManifolds/ManifoldDiff.jl.git",
