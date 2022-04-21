@@ -182,10 +182,6 @@ rb_onb_default2 = TangentDiffBackend(
         DefaultOrthonormalBasis(),
         [[0.0, -1.0, 0.0], [sqrt(2) / 2, 0.0, -sqrt(2) / 2]],
     ),
-    basis_val = CachedBasis(
-        DefaultOrthonormalBasis(),
-        [[0.0, -1.0, 0.0], [sqrt(2) / 2, 0.0, -sqrt(2) / 2]],
-    ),
 )
 
 rb_proj = ManifoldDiff.RiemannianProjectionBackend(default_differential_backend())
@@ -216,13 +212,13 @@ end
 
     q = [sqrt(2) / 2, 0, sqrt(2) / 2]
     X = similar(q)
-    for backend in [rb_onb_default, rb_proj]
+    for backend in [rb_onb_default, rb_onb_default2, rb_proj]
         @test isapprox(s2, q, gradient(s2, f1, q, backend), [0.5, 0.0, -0.5])
         @test gradient!(s2, f1, X, q, backend) === X
         @test isapprox(s2, q, X, [0.5, 0.0, -0.5])
     end
     X = similar(q)
-    for backend in [rb_onb_default, rb_proj]
+    for backend in [rb_onb_default, rb_onb_default2, rb_proj]
         gradient!(s2, f1, X, q, backend)
         @test isapprox(s2, q, X, [0.5, 0.0, -0.5])
     end
@@ -232,6 +228,36 @@ end
     X = similar(q)
     @test gradient!(s2, f1, X, q, TestRiemannianBackend()) === X
     @test X == [1.0, 2.0, 3.0]
+end
+
+@testset "Riemannian Jacobians" begin
+    s2 = Sphere(2)
+    f1(p) = p
+
+    q = [sqrt(2) / 2, 0, sqrt(2) / 2]
+    X = similar(q)
+    @test isapprox(
+        s2,
+        q,
+        ManifoldDiff.jacobian(s2, s2, f1, q, rb_onb_default),
+        [1.0 0.0; 0.0 1.0],
+    )
+
+    q2 = [1.0, 0.0, 0.0]
+    f2(X) = [0.0 0.0 0.0; 0.0 2.0 -1.0; 0.0 -3.0 1.0] * X
+    Tq2s2 = TangentSpaceAtPoint(s2, q2)
+    @test isapprox(
+        ManifoldDiff.jacobian(Tq2s2, Tq2s2, f2, zero_vector(s2, q2), rb_onb_default),
+        [2.0 -1.0; -3.0 1.0],
+    )
+
+    q3 = [0.0, 1.0, 0.0]
+    f3(X) = [0.0 2.0 1.0; 0.0 0.0 0.0; 0.0 5.0 1.0] * X
+    Tq3s2 = TangentSpaceAtPoint(s2, q3)
+    @test isapprox(
+        ManifoldDiff.jacobian(Tq2s2, Tq3s2, f3, zero_vector(s2, q2), rb_onb_default),
+        [-2.0 -1.0; 5.0 1.0],
+    )
 end
 
 @testset "EmbeddedBackend" begin
