@@ -25,6 +25,12 @@ include("differentiation.jl")
 include("embedded_diff.jl")
 include("riemannian_diff.jl")
 
+include("diagonalizing_projectors.jl")
+
+include("differentials.jl")
+include("adjoint_differentials.jl")
+include("Jacobi_fields.jl")
+
 function __init__()
     @require FiniteDiff = "6a86dc24-6348-571c-b903-95158fe2bd41" begin
         using .FiniteDiff
