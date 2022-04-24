@@ -17,6 +17,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
 ChainRules = "1"
+ChainRulesCore = "1"
 DoubleFloats = ">= 0.9.2"
 ForwardDiff = "0.10"
 Manifolds = "0.8"
