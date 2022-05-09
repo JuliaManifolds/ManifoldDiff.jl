@@ -2,6 +2,8 @@
 
 Documentation for `ManifoldDiff.jl`'s methods and types for finite differences and automatic differentiation.
 
+## Differentiation backends
+
 ### ForwardDiff.jl
 
 ```@autodocs

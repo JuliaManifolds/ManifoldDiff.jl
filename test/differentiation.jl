@@ -3,7 +3,7 @@ using Manifolds
 using ManifoldDiff
 using Test
 
-using ManifoldDiff:
+using Manifolds:
     default_differential_backend,
     _derivative,
     _derivative!,
@@ -15,18 +15,16 @@ using ManifoldDiff:
     _gradient!,
     _jacobian,
     _jacobian!,
-    set_default_differential_backend!
-
-using ManifoldDiff:
+    set_default_differential_backend!,
     AbstractRiemannianDiffBackend,
     TangentDiffBackend,
     ExplicitEmbeddedBackend,
     RiemannianProjectionBackend
 
-import ManifoldDiff: gradient
+import Manifolds: gradient
 
 struct TestRiemannianBackend <: AbstractRiemannianDiffBackend end
-function ManifoldDiff.gradient(::AbstractManifold, f, p, ::TestRiemannianBackend)
+function Manifolds.gradient(::AbstractManifold, f, p, ::TestRiemannianBackend)
     return collect(1.0:length(p))
 end
 
@@ -34,7 +32,7 @@ using FiniteDifferences, FiniteDiff
 using LinearAlgebra: Diagonal, dot
 
 @testset "Differentiation backend" begin
-    fd51 = ManifoldDiff.FiniteDifferencesBackend()
+    fd51 = Manifolds.FiniteDifferencesBackend()
     @testset "default_differential_backend" begin
         #ForwardDiff is loaded first in utils.
         @test default_differential_backend() === ManifoldDiff.ForwardDiffBackend()
@@ -42,7 +40,7 @@ using LinearAlgebra: Diagonal, dot
         @test length(fd51.method.grid) == 5
         # check method order
         @test typeof(fd51.method).parameters[2] == 1
-        fd71 = ManifoldDiff.FiniteDifferencesBackend(central_fdm(7, 1))
+        fd71 = Manifolds.FiniteDifferencesBackend(central_fdm(7, 1))
         @test set_default_differential_backend!(fd71) == fd71
         @test default_differential_backend() == fd71
     end
@@ -51,13 +49,12 @@ using LinearAlgebra: Diagonal, dot
 
     fwd_diff = ManifoldDiff.ForwardDiffBackend()
     @testset "ForwardDiff" begin
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test default_differential_backend() isa Manifolds.FiniteDifferencesBackend
 
         @test set_default_differential_backend!(fwd_diff) == fwd_diff
         @test default_differential_backend() == fwd_diff
-        @test set_default_differential_backend!(fd51) isa
-              ManifoldDiff.FiniteDifferencesBackend
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test set_default_differential_backend!(fd51) isa Manifolds.FiniteDifferencesBackend
+        @test default_differential_backend() isa Manifolds.FiniteDifferencesBackend
 
         set_default_differential_backend!(fwd_diff)
         @test default_differential_backend() == fwd_diff
@@ -68,13 +65,12 @@ using LinearAlgebra: Diagonal, dot
 
     finite_diff = ManifoldDiff.FiniteDiffBackend()
     @testset "FiniteDiff" begin
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test default_differential_backend() isa Manifolds.FiniteDifferencesBackend
 
         @test set_default_differential_backend!(finite_diff) == finite_diff
         @test default_differential_backend() == finite_diff
-        @test set_default_differential_backend!(fd51) isa
-              ManifoldDiff.FiniteDifferencesBackend
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test set_default_differential_backend!(fd51) isa Manifolds.FiniteDifferencesBackend
+        @test default_differential_backend() isa Manifolds.FiniteDifferencesBackend
 
         set_default_differential_backend!(finite_diff)
         @test default_differential_backend() == finite_diff
@@ -85,13 +81,12 @@ using LinearAlgebra: Diagonal, dot
 
     reverse_diff = ManifoldDiff.ReverseDiffBackend()
     @testset "ReverseDiff" begin
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test default_differential_backend() isa Manifolds.FiniteDifferencesBackend
 
         @test set_default_differential_backend!(reverse_diff) == reverse_diff
         @test default_differential_backend() == reverse_diff
-        @test set_default_differential_backend!(fd51) isa
-              ManifoldDiff.FiniteDifferencesBackend
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test set_default_differential_backend!(fd51) isa Manifolds.FiniteDifferencesBackend
+        @test default_differential_backend() isa Manifolds.FiniteDifferencesBackend
 
         set_default_differential_backend!(reverse_diff)
         @test default_differential_backend() == reverse_diff
@@ -152,7 +147,7 @@ using LinearAlgebra: Diagonal, dot
             @test_broken _jacobian!(f1!, X, [1.0, -1.0], fdf) === X
             @test_broken X ≈ [1.0 -2.0]
         end
-        set_default_differential_backend!(ManifoldDiff.NoneDiffBackend())
+        set_default_differential_backend!(Manifolds.NoneDiffBackend())
         @testset for backend in [fd51, ManifoldDiff.ForwardDiffBackend()]
             @test _derivative(c1, 0.0, backend) ≈ [1.0, 0.0]
             @test _gradient(f1, [1.0, -1.0], backend) ≈ [1.0, -2.0]
@@ -170,7 +165,7 @@ rb_onb_default = TangentDiffBackend(
     DefaultOrthonormalBasis(),
 )
 
-rb_onb_fd51 = TangentDiffBackend(ManifoldDiff.FiniteDifferencesBackend())
+rb_onb_fd51 = TangentDiffBackend(Manifolds.FiniteDifferencesBackend())
 
 rb_onb_fwd_diff = TangentDiffBackend(ManifoldDiff.ForwardDiffBackend())
 
@@ -184,7 +179,7 @@ rb_onb_default2 = TangentDiffBackend(
     ),
 )
 
-rb_proj = ManifoldDiff.RiemannianProjectionBackend(default_differential_backend())
+rb_proj = Manifolds.RiemannianProjectionBackend(default_differential_backend())
 
 @testset "Riemannian differentials" begin
     s2 = Sphere(2)
@@ -239,7 +234,7 @@ end
     @test isapprox(
         s2,
         q,
-        ManifoldDiff.jacobian(s2, s2, f1, q, rb_onb_default),
+        Manifolds.jacobian(s2, s2, f1, q, rb_onb_default),
         [1.0 0.0; 0.0 1.0],
     )
 
@@ -247,7 +242,7 @@ end
     f2(X) = [0.0 0.0 0.0; 0.0 2.0 -1.0; 0.0 -3.0 1.0] * X
     Tq2s2 = TangentSpaceAtPoint(s2, q2)
     @test isapprox(
-        ManifoldDiff.jacobian(Tq2s2, Tq2s2, f2, zero_vector(s2, q2), rb_onb_default),
+        Manifolds.jacobian(Tq2s2, Tq2s2, f2, zero_vector(s2, q2), rb_onb_default),
         [2.0 -1.0; -3.0 1.0],
     )
 
@@ -255,7 +250,7 @@ end
     f3(X) = [0.0 2.0 1.0; 0.0 0.0 0.0; 0.0 5.0 1.0] * X
     Tq3s2 = TangentSpaceAtPoint(s2, q3)
     @test isapprox(
-        ManifoldDiff.jacobian(Tq2s2, Tq3s2, f3, zero_vector(s2, q2), rb_onb_default),
+        Manifolds.jacobian(Tq2s2, Tq3s2, f3, zero_vector(s2, q2), rb_onb_default),
         [-2.0 -1.0; 5.0 1.0],
     )
 end

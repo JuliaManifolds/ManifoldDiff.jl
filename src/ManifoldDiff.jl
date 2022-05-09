@@ -6,6 +6,11 @@ using LinearAlgebra
 using StaticArrays
 
 using Manifolds
+using Manifolds:
+    AbstractDiffBackend,
+    NoneDiffBackend,
+    default_differential_backend,
+    set_default_differential_backend!
 using ManifoldsBase
 using ChainRulesCore
 using ForwardDiff
@@ -21,9 +26,7 @@ using ManifoldsBase:
 
 using Requires
 
-include("differentiation.jl")
-include("embedded_diff.jl")
-include("riemannian_diff.jl")
+import Manifolds: _derivative, _derivative!, _gradient, _gradient!, _jacobian, _jacobian!
 
 include("diagonalizing_projectors.jl")
 
@@ -35,11 +38,6 @@ function __init__()
     @require FiniteDiff = "6a86dc24-6348-571c-b903-95158fe2bd41" begin
         using .FiniteDiff
         include("finite_diff.jl")
-    end
-
-    @require FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000" begin
-        using .FiniteDifferences
-        include("finite_differences.jl")
     end
 
     @require ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210" begin
