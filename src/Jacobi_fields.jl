@@ -1,5 +1,5 @@
 @doc raw"""
-    βdifferential_geodesic_startpoint(κ,t,d)
+    βdifferential_shortest_geodesic_startpoint(κ,t,d)
 
 weights for the [`jacobi_field`](@ref) corresponding to the differential of the geodesic
 with respect to its start point ``D_x g(t;p,q)[X]``.
@@ -19,9 +19,9 @@ Due to a symmetry argument, these are also used to compute ``D_q g(t; p,q)[η]``
 
 # See also
 
-[`differential_geodesic_endpoint`](@ref), [`differential_geodesic_startpoint`](@ref), [`jacobi_field`](@ref)
+[`differential_shortest_geodesic_endpoint`](@ref), [`differential_shortest_geodesic_startpoint`](@ref), [`jacobi_field`](@ref)
 """
-function βdifferential_geodesic_startpoint(κ, t, d)
+function βdifferential_shortest_geodesic_startpoint(κ, t, d)
     (d == 0) && return one(t) - t
     (κ < 0) && return sinh(sqrt(-κ) * (one(t) - t) * d) / sinh(sqrt(-κ) * d)
     (κ > 0) && return sin(sqrt(κ) * (one(t) - t) * d) / sin(sqrt(κ) * d)
