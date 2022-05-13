@@ -98,3 +98,39 @@ function differential_log_argument!(M::AbstractManifold, Y, p, q, X)
     # order of p and q has to be reversed in this call, cf. Persch, 2018 Lemma 2.3
     return jacobi_field!(M, Y, q, p, 1.0, X, βdifferential_log_argument)
 end
+
+@doc raw"""
+    differential_exp_argument_lie_approx(M::AbstractManifold, p, X, Y; n)
+
+Approximate differential of exponential map based on Lie group exponential. The formula
+reads (see Theorem 1.7 of [^Helgason1978])
+```math
+D_X \exp_{p}(X)[Y] = (\mathrm{d}L_{\exp_e(X)})_e\left(\sum_{k=0}^{n}\frac{(-1)^k}{(k+1)!}(\operatorname{ad}_X)^k(Y)\right)
+```
+where ``(\operatorname{ad}_X)^k(Y)`` is defined recursively as ``(\operatorname{ad}_X)^0(Y) = Y``,
+``\operatorname{ad}_X^{k+1}(Y) = [X, \operatorname{ad}_X^k(Y)]``.
+
+[^Helgason1978]:
+    > S. Helgason, Differential Geometry, Lie Groups, and Symmetric Spaces, First Edition.
+    > Academic Press, 1978.
+"""
+function differential_exp_argument_lie_approx(M::AbstractManifold, p, X, Y; n = 20)
+    Z = allocate(X)
+    return differential_exp_argument_lie_approx!(M, Z, p, X, Y; n)
+end
+
+function differential_exp_argument_lie_approx!(M::AbstractManifold, Z, p, X, Y; n = 20)
+    tmp = copy(M, p, Y)
+    a = -1.0
+    zero_vector!(M, Z, p)
+    for k in 0:n
+        a *= -1 // (k + 1)
+        Z .+= a .* tmp
+        if k < n
+            copyto!(tmp, lie_bracket(M, X, tmp))
+        end
+    end
+    q = exp(M, p, X)
+    translate_diff!(M, Z, q, Identity(M), Z)
+    return Z
+end

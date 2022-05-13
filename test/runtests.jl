@@ -9,3 +9,4 @@ using ManifoldsBase
 using RecursiveArrayTools
 
 include("differentiation.jl")
+include("manifold_specializations.jl")
