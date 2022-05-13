@@ -134,3 +134,60 @@ function differential_exp_argument_lie_approx!(M::AbstractManifold, Z, p, X, Y; 
     translate_diff!(M, Z, q, Identity(M), Z)
     return Z
 end
+
+@doc raw"""
+    inverse_retract_diff_argument_fd_approx(
+        M::AbstractManifold,
+        p,
+        q,
+        X;
+        retr::AbstractRetractionMethod = default_retraction_method(M),
+        invretr::AbstractInverseRetractionMethod = default_inverse_retraction_method(M),
+        h::Real=sqrt(eps(eltype(X))),
+    )
+
+Approximate the differential of the inverse retraction `invretr` using a finite difference
+formula (see Eq. (16) in [^Zimmermann2019]):
+```math
+\frac{\operatorname{retr}^{-1}_q(\operatorname{retr}_p(hX)) - \operatorname{retr}^{-1}_q(\operatorname{retr}_p(-hX))}{2h}
+```
+where ``h`` is the finite difference step `h`, ``\operatorname{retr}^{-1}`` is the inverse
+retraction `invretr` and ``\operatorname{retr}`` is the retraction `retr`.
+
+[^Zimmermann2019]:
+    > R. Zimmermann, “Hermite interpolation and data processing errors on Riemannian matrix
+    > manifolds,” arXiv:1908.05875 [cs, math], Sep. 2019,
+    > Available: http://arxiv.org/abs/1908.05875
+"""
+function inverse_retract_diff_argument_fd_approx(
+    M::AbstractManifold,
+    p,
+    q,
+    X;
+    retr::AbstractRetractionMethod = default_retraction_method(M),
+    invretr::AbstractInverseRetractionMethod = default_inverse_retraction_method(M),
+    h::Real = sqrt(eps(eltype(X))),
+)
+    Y = allocate_result(M, inverse_retract_diff_argument_fd_approx, X, p, q)
+    inverse_retract_diff_argument_fd_approx!(M, Y, p, q, X; retr, invretr, h)
+    return Y
+end
+
+function inverse_retract_diff_argument_fd_approx!(
+    M::AbstractManifold,
+    Y,
+    p,
+    q,
+    X;
+    retr::AbstractRetractionMethod = default_retraction_method(M),
+    invretr::AbstractInverseRetractionMethod = default_inverse_retraction_method(M),
+    h::Real = sqrt(eps(eltype(X))),
+)
+    p_tmp = retract(M, q, h * X, retr)
+    inverse_retract!(M, Y, p, p_tmp, invretr)
+    retract!(M, p_tmp, q, -h * X, retr)
+    X_tmp = inverse_retract(M, p, p_tmp, invretr)
+    Y .-= X_tmp
+    Y ./= 2 * h
+    return Y
+end

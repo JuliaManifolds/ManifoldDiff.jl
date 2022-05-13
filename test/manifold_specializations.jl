@@ -3,7 +3,10 @@ using Manifolds, ManifoldDiff
 using Test
 using LinearAlgebra
 
-using ManifoldDiff: differential_exp_argument, differential_exp_argument_lie_approx
+using ManifoldDiff:
+    differential_exp_argument,
+    differential_exp_argument_lie_approx,
+    inverse_retract_diff_argument_fd_approx
 
 @testset "Rotations(3)" begin
     M = Rotations(3)
@@ -43,4 +46,21 @@ using ManifoldDiff: differential_exp_argument, differential_exp_argument_lie_app
             atol = 1e-12,
         )
     end
+end
+
+@testset "FiniteDifferenceLogDiffArgumentMethod" begin
+    M = Sphere(2)
+    p = [1.0, 0.0, 0.0]
+    q = [0.0, sqrt(2) / 2, sqrt(2) / 2]
+    X = [1.0, -2.0, 2.0]
+
+    # computed using Manopt.differential_log_argument(M, p, q, X)
+    diff_ref = [-5.131524956784507e-33, -3.84869943477634, 2.434485872403245]
+    @test isapprox(
+        M,
+        q,
+        inverse_retract_diff_argument_fd_approx(M, p, q, X; h = 1e-4),
+        diff_ref;
+        atol = 1e-7,
+    )
 end
