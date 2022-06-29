@@ -26,7 +26,29 @@ using ManifoldsBase:
 
 using Requires
 
-import Manifolds: _derivative, _derivative!, _gradient, _gradient!, _jacobian, _jacobian!
+import Manifolds:
+    _derivative, _derivative!, _gradient, _gradient!, _jacobian, _jacobian!, _hessian
+
+"""
+    hessian(M::AbstractManifold, f, p, backend::Manifolds.TangentDiffBackend)
+
+Compute the Hessian of function `f` at point `p` using the given `backend`. The formula
+for normal coordinate systems from[^SommerFletcherPennec2020] is used.
+
+[^SommerFletcherPennec2020]:
+    > S. Sommer, T. Fletcher, and X. Pennec, “1 - Introduction to differential and Riemannian
+    > geometry,” in Riemannian Geometric Statistics in Medical Image Analysis, X. Pennec,
+    > S. Sommer, and T. Fletcher, Eds. Academic Press, 2020, pp. 3–37.
+    > doi: 10.1016/B978-0-12-814725-2.00008-X.
+"""
+function hessian(M::AbstractManifold, f, p, backend::Manifolds.TangentDiffBackend)
+    X = get_coordinates(M, p, zero_vector(M, p), backend.basis_arg)
+    onb_coords = _hessian(X, backend.diff_backend) do Y
+        return f(exp(M, p, get_vector(M, p, Y, backend.basis_arg)))
+    end
+    return onb_coords
+end
+
 
 include("diagonalizing_projectors.jl")
 
