@@ -136,11 +136,11 @@ The computation can be done in place of `Y`.
 
 For details see [`jacobi_field`](@ref)
 """
-function adjoint_Jacobi_field(M::AbstractManifold, p, q, t, X, β)
+function adjoint_Jacobi_field(M::AbstractManifold, p, q, t, X, β::Tβ) where {Tβ}
     Y = allocate_result(M, adjoint_Jacobi_field, X, p, q)
     return adjoint_Jacobi_field!(M, Y, p, q, t, X, β)
 end
-function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β)
+function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     if isapprox(M, p, q)
         copyto!(M, Y, p, X)
     else
@@ -156,7 +156,7 @@ function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β)
     end
     return Y
 end
-function adjoint_Jacobi_field(M::PowerManifoldNestedReplacing, p, q, t, X, β)
+function adjoint_Jacobi_field(M::PowerManifoldNestedReplacing, p, q, t, X, β::Tβ) where {Tβ}
     Y = allocate_result(M, adjoint_Jacobi_field, p, X)
     rep_size = representation_size(M.manifold)
     for i in get_iterator(M)
@@ -171,7 +171,7 @@ function adjoint_Jacobi_field(M::PowerManifoldNestedReplacing, p, q, t, X, β)
     end
     return Y
 end
-function adjoint_Jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β)
+function adjoint_Jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     rep_size = representation_size(M.manifold)
     for i in get_iterator(M)
         adjoint_Jacobi_field!(
@@ -192,8 +192,8 @@ function adjoint_Jacobi_field(
     q::ArrayPartition,
     t,
     X::ArrayPartition,
-    β,
-)
+    β::Tβ,
+) where {Tβ}
     return ArrayPartition(
         map(
             adjoint_Jacobi_field,
@@ -206,7 +206,7 @@ function adjoint_Jacobi_field(
         )...,
     )
 end
-function adjoint_Jacobi_field!(M::ProductManifold, Y, p, q, t, X, β)
+function adjoint_Jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     map(
         adjoint_Jacobi_field!,
         M.manifolds,
@@ -233,11 +233,11 @@ The computation can be done in place of `Y`.
 
 [`adjoint_Jacobi_field`](@ref)
 """
-function jacobi_field(M::AbstractManifold, p, q, t, X, β)
+function jacobi_field(M::AbstractManifold, p, q, t, X, β::Tβ) where {Tβ}
     Y = allocate_result(M, jacobi_field, X, p, q)
     return jacobi_field!(M, Y, p, q, t, X, β)
 end
-function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β)
+function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     if isapprox(M, p, q)
         copyto!(M, Y, p, X)
     else
@@ -254,14 +254,14 @@ function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β)
 
     return Y
 end
-function jacobi_field(M::AbstractPowerManifold, p, q, t, X, β)
+function jacobi_field(M::AbstractPowerManifold, p, q, t, X, β::Tβ) where {Tβ}
     Y = allocate_result(M, jacobi_field, p, X)
     for i in get_iterator(M)
         Y[M, i] = jacobi_field(M.manifold, p[M, i], q[M, i], t, X[M, i], β)
     end
     return Y
 end
-function jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β)
+function jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     Z = deepcopy(first(Y))
     for i in get_iterator(M)
         jacobi_field!(M.manifold, Z, p[M, i], q[M, i], t, X[M, i], β)
@@ -275,8 +275,8 @@ function jacobi_field(
     q::ArrayPartition,
     t,
     X::ArrayPartition,
-    β,
-)
+    β::Tβ,
+) where {Tβ}
     return ArrayPartition(
         map(
             jacobi_field,
@@ -289,7 +289,7 @@ function jacobi_field(
         )...,
     )
 end
-function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β)
+function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     map(
         jacobi_field!,
         M.manifolds,
