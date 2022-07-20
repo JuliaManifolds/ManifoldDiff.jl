@@ -149,7 +149,7 @@ function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) wher
         zero_vector!(M, Y, p)
         projectors = diagonalizing_projectors(M, p, log(M, p, q) / dpq)
         tX = vector_transport_to(M, x, X, p, ParallelTransport())
-        for proj in projectors
+        map(projectors) do proj
             ptX = proj[2](tX)
             Y .+= β(proj[1], t, dpq) .* ptX
         end
@@ -245,7 +245,7 @@ function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
         dpq = distance(M, p, q)
         zero_vector!(M, Y, p)
         projectors = diagonalizing_projectors(M, p, log(M, p, q) / dpq)
-        for proj in projectors
+        map(projectors) do proj
             pX = proj[2](X)
             ptX = vector_transport_to(M, p, pX, x, ParallelTransport())
             Y .+= β(proj[1], t, dpq) .* ptX
