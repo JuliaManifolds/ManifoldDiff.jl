@@ -1,4 +1,3 @@
-using Revise
 using Manifolds, ManifoldDiff
 using Test
 
