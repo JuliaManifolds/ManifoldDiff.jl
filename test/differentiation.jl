@@ -111,6 +111,7 @@ using LinearAlgebra: Diagonal, dot
             return y
         end
         f2(x) = 3 * x[1] * x[2] + x[2]^3
+        @test _jacobian(c1, 0.0) ≈ [1.0; 0.0]
 
         @testset "Inference" begin
             X = [-1.0, -1.0]
@@ -152,6 +153,12 @@ using LinearAlgebra: Diagonal, dot
             @test_broken X ≈ [1.0 -2.0]
         end
         set_default_differential_backend!(ManifoldDiff.NoneDiffBackend())
+
+        @test _jacobian(c1, 0.0, fd51) ≈ [1.0; 0.0]
+        jac = [NaN; NaN]
+        _jacobian!(c1, jac, 0.0, fd51)
+        @test jac ≈ [1.0; 0.0]
+
         @testset for backend in [fd51, ManifoldDiff.ForwardDiffBackend()]
             @test _derivative(c1, 0.0, backend) ≈ [1.0, 0.0]
             @test _gradient(f1, [1.0, -1.0], backend) ≈ [1.0, -2.0]

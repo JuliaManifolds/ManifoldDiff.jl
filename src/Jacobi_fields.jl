@@ -141,11 +141,12 @@ function adjoint_Jacobi_field(M::AbstractManifold, p, q, t, X, β::Tβ) where {T
     return adjoint_Jacobi_field!(M, Y, p, q, t, X, β)
 end
 function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
+    dpq = distance(M, p, q)
     if isapprox(M, p, q)
         copyto!(M, Y, p, X)
+        Y .*= β(zero(t), t, dpq)
     else
         x = shortest_geodesic(M, p, q, t)
-        dpq = distance(M, p, q)
         zero_vector!(M, Y, p)
         projectors = diagonalizing_projectors(M, p, log(M, p, q) / dpq)
         tX = vector_transport_to(M, x, X, p, ParallelTransport())
@@ -205,11 +206,12 @@ function jacobi_field(M::AbstractManifold, p, q, t, X, β::Tβ) where {Tβ}
     return jacobi_field!(M, Y, p, q, t, X, β)
 end
 function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
+    dpq = distance(M, p, q)
     if isapprox(M, p, q)
         copyto!(M, Y, p, X)
+        Y .*= β(zero(t), t, dpq)
     else
         x = shortest_geodesic(M, p, q, t)
-        dpq = distance(M, p, q)
         zero_vector!(M, Y, p)
         projectors = diagonalizing_projectors(M, p, log(M, p, q) / dpq)
         map(projectors) do proj

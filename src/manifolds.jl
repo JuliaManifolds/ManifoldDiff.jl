@@ -97,3 +97,6 @@ function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     )
     return Y
 end
+function jacobi_field(::Circle{ℝ}, p, q, t, X, β::Tβ) where {Tβ}
+    return X
+end
