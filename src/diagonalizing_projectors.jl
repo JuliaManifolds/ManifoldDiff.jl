@@ -73,31 +73,3 @@ end
 struct IdentityProjector <: AbstractProjector end
 
 (::IdentityProjector)(X) = X
-
-function diagonalizing_projectors(M::AbstractSphere{ℝ}, p, X)
-    X_norm = norm(M, p, X)
-    X_normed = X / X_norm
-    return (
-        (zero(number_eltype(p)), ProjectorOntoVector(M, p, X_normed)),
-        (one(number_eltype(p)), CoprojectorOntoVector(M, p, X_normed)),
-    )
-end
-
-function diagonalizing_projectors(M::Hyperbolic, p, X)
-    X_norm = norm(M, p, X)
-    X_normed = X / X_norm
-    return (
-        (zero(number_eltype(p)), ProjectorOntoVector(M, p, X_normed)),
-        (-one(number_eltype(p)), CoprojectorOntoVector(M, p, X_normed)),
-    )
-end
-
-function diagonalizing_projectors(::Euclidean, p, X)
-    return ((zero(number_eltype(p)), IdentityProjector()),)
-end
-
-function diagonalizing_projectors(M::Circle{ℝ}, p, X)
-    sbv = sign(X[])
-    proj = ProjectorOntoVector(M, p, @SVector [sbv == 0 ? one(sbv) : sbv])
-    return ((zero(number_eltype(p)), proj),)
-end

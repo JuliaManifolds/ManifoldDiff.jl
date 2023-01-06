@@ -186,39 +186,6 @@ function adjoint_Jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ)
     end
     return Y
 end
-function adjoint_Jacobi_field(
-    M::ProductManifold,
-    p::ArrayPartition,
-    q::ArrayPartition,
-    t,
-    X::ArrayPartition,
-    β::Tβ,
-) where {Tβ}
-    return ArrayPartition(
-        map(
-            adjoint_Jacobi_field,
-            M.manifolds,
-            submanifold_components(M, p),
-            submanifold_components(M, q),
-            ntuple(_ -> t, length(M.manifolds)),
-            submanifold_components(M, X),
-            ntuple(_ -> β, length(M.manifolds)),
-        )...,
-    )
-end
-function adjoint_Jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
-    map(
-        adjoint_Jacobi_field!,
-        M.manifolds,
-        submanifold_components(M, Y),
-        submanifold_components(M, q),
-        submanifold_components(M, p),
-        ntuple(_ -> t, length(M.manifolds)),
-        submanifold_components(M, X),
-        ntuple(_ -> β, length(M.manifolds)),
-    )
-    return Y
-end
 
 @doc raw"""
     Y = jacobi_field(M, p, q, t, X, β)
@@ -267,38 +234,5 @@ function jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ) where {
         jacobi_field!(M.manifold, Z, p[M, i], q[M, i], t, X[M, i], β)
         Y[M, i] = Z
     end
-    return Y
-end
-function jacobi_field(
-    M::ProductManifold,
-    p::ArrayPartition,
-    q::ArrayPartition,
-    t,
-    X::ArrayPartition,
-    β::Tβ,
-) where {Tβ}
-    return ArrayPartition(
-        map(
-            jacobi_field,
-            M.manifolds,
-            submanifold_components(M, p),
-            submanifold_components(M, q),
-            ntuple(_ -> t, length(M.manifolds)),
-            submanifold_components(M, X),
-            ntuple(_ -> β, length(M.manifolds)),
-        )...,
-    )
-end
-function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
-    map(
-        jacobi_field!,
-        M.manifolds,
-        submanifold_components(M, Y),
-        submanifold_components(M, p),
-        submanifold_components(M, q),
-        ntuple(_ -> t, length(M.manifolds)),
-        submanifold_components(M, X),
-        ntuple(_ -> β, length(M.manifolds)),
-    )
     return Y
 end
