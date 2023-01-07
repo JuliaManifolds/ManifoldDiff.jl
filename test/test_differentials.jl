@@ -62,6 +62,18 @@ using ManifoldDiff:
             @test norm(M, p, Y - t * X) ≈ 0 atol = 10.0^(-16)
         end
     end
+    @testset "Differentials on Power of Sn(2)" begin
+        for rep in [NestedPowerRepresentation(), NestedReplacingPowerRepresentation()]
+            N = PowerManifold(M, rep, 3)
+            pN = [p, q, p]
+            qN = [p, p, q]
+            V = [X, zero_vector(M, p), -X_qp]
+            W = allocate(V)
+            @test differential_log_argument(N, pN, qN, V) == [V[1], V[2], V[1]]
+            differential_log_argument!(N, W, pN, qN, V)
+            @test W == [V[1], V[2], V[1]]
+        end
+    end
     @testset "Differentials on SPD(2)" begin
         #
         # Single differentials on SPD

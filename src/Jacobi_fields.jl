@@ -157,8 +157,15 @@ function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) wher
     end
     return Y
 end
-function adjoint_Jacobi_field(M::PowerManifoldNestedReplacing, p, q, t, X, β::Tβ) where {Tβ}
-    Y = allocate_result(M, adjoint_Jacobi_field, p, X)
+function adjoint_Jacobi_field!(
+    M::PowerManifoldNestedReplacing,
+    Y,
+    p,
+    q,
+    t,
+    X,
+    β::Tβ,
+) where {Tβ}
     rep_size = representation_size(M.manifold)
     for i in get_iterator(M)
         Y[i...] = adjoint_Jacobi_field(
@@ -223,18 +230,32 @@ function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
 
     return Y
 end
-function jacobi_field(M::AbstractPowerManifold, p, q, t, X, β::Tβ) where {Tβ}
-    Y = allocate_result(M, jacobi_field, p, X)
+function jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
+    rep_size = representation_size(M.manifold)
     for i in get_iterator(M)
-        Y[M, i] = jacobi_field(M.manifold, p[M, i], q[M, i], t, X[M, i], β)
+        jacobi_field!(
+            M.manifold,
+            _write(M, rep_size, Y, i),
+            _read(M, rep_size, p, i),
+            _read(M, rep_size, q, i),
+            t,
+            _read(M, rep_size, X, i),
+            β,
+        )
     end
     return Y
 end
-function jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
-    Z = deepcopy(first(Y))
+function jacobi_field!(M::PowerManifoldNestedReplacing, Y, p, q, t, X, β::Tβ) where {Tβ}
+    rep_size = representation_size(M.manifold)
     for i in get_iterator(M)
-        jacobi_field!(M.manifold, Z, p[M, i], q[M, i], t, X[M, i], β)
-        Y[M, i] = Z
+        Y[i...] = jacobi_field(
+            M.manifold,
+            _read(M, rep_size, p, i),
+            _read(M, rep_size, q, i),
+            t,
+            _read(M, rep_size, X, i),
+            β,
+        )
     end
     return Y
 end
