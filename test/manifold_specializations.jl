@@ -15,7 +15,7 @@ using ManifoldDiff:
     Y = rand(M; vector_at = p)
 
     @test differential_exp_argument(M, p, X, Y) ≈
-          Base.@invoke differential_exp_argument(M::AbstractManifold, p, X, Y)
+          invoke(differential_exp_argument, Tuple{AbstractManifold,Any,Any,Any}, M, p, X, Y)
 
 
     G = SpecialOrthogonal(3)

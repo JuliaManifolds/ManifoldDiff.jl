@@ -8,5 +8,7 @@ using Manifolds
 using ManifoldsBase
 using RecursiveArrayTools
 
+include("test_differentials.jl")
+include("test_adjoint_differentials.jl")
 include("differentiation.jl")
 include("manifold_specializations.jl")

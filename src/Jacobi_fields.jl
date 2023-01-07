@@ -141,11 +141,12 @@ function adjoint_Jacobi_field(M::AbstractManifold, p, q, t, X, β::Tβ) where {T
     return adjoint_Jacobi_field!(M, Y, p, q, t, X, β)
 end
 function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
+    dpq = distance(M, p, q)
     if isapprox(M, p, q)
         copyto!(M, Y, p, X)
+        Y .*= β(zero(t), t, dpq)
     else
         x = shortest_geodesic(M, p, q, t)
-        dpq = distance(M, p, q)
         zero_vector!(M, Y, p)
         projectors = diagonalizing_projectors(M, p, log(M, p, q) / dpq)
         tX = vector_transport_to(M, x, X, p, ParallelTransport())
@@ -156,8 +157,15 @@ function adjoint_Jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) wher
     end
     return Y
 end
-function adjoint_Jacobi_field(M::PowerManifoldNestedReplacing, p, q, t, X, β::Tβ) where {Tβ}
-    Y = allocate_result(M, adjoint_Jacobi_field, p, X)
+function adjoint_Jacobi_field!(
+    M::PowerManifoldNestedReplacing,
+    Y,
+    p,
+    q,
+    t,
+    X,
+    β::Tβ,
+) where {Tβ}
     rep_size = representation_size(M.manifold)
     for i in get_iterator(M)
         Y[i...] = adjoint_Jacobi_field(
@@ -186,39 +194,6 @@ function adjoint_Jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ)
     end
     return Y
 end
-function adjoint_Jacobi_field(
-    M::ProductManifold,
-    p::ArrayPartition,
-    q::ArrayPartition,
-    t,
-    X::ArrayPartition,
-    β::Tβ,
-) where {Tβ}
-    return ArrayPartition(
-        map(
-            adjoint_Jacobi_field,
-            M.manifolds,
-            submanifold_components(M, p),
-            submanifold_components(M, q),
-            ntuple(_ -> t, length(M.manifolds)),
-            submanifold_components(M, X),
-            ntuple(_ -> β, length(M.manifolds)),
-        )...,
-    )
-end
-function adjoint_Jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
-    map(
-        adjoint_Jacobi_field!,
-        M.manifolds,
-        submanifold_components(M, Y),
-        submanifold_components(M, q),
-        submanifold_components(M, p),
-        ntuple(_ -> t, length(M.manifolds)),
-        submanifold_components(M, X),
-        ntuple(_ -> β, length(M.manifolds)),
-    )
-    return Y
-end
 
 @doc raw"""
     Y = jacobi_field(M, p, q, t, X, β)
@@ -238,11 +213,12 @@ function jacobi_field(M::AbstractManifold, p, q, t, X, β::Tβ) where {Tβ}
     return jacobi_field!(M, Y, p, q, t, X, β)
 end
 function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
+    dpq = distance(M, p, q)
     if isapprox(M, p, q)
         copyto!(M, Y, p, X)
+        Y .*= β(zero(t), t, dpq)
     else
         x = shortest_geodesic(M, p, q, t)
-        dpq = distance(M, p, q)
         zero_vector!(M, Y, p)
         projectors = diagonalizing_projectors(M, p, log(M, p, q) / dpq)
         map(projectors) do proj
@@ -254,51 +230,32 @@ function jacobi_field!(M::AbstractManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
 
     return Y
 end
-function jacobi_field(M::AbstractPowerManifold, p, q, t, X, β::Tβ) where {Tβ}
-    Y = allocate_result(M, jacobi_field, p, X)
-    for i in get_iterator(M)
-        Y[M, i] = jacobi_field(M.manifold, p[M, i], q[M, i], t, X[M, i], β)
-    end
-    return Y
-end
 function jacobi_field!(M::AbstractPowerManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
-    Z = deepcopy(first(Y))
+    rep_size = representation_size(M.manifold)
     for i in get_iterator(M)
-        jacobi_field!(M.manifold, Z, p[M, i], q[M, i], t, X[M, i], β)
-        Y[M, i] = Z
+        jacobi_field!(
+            M.manifold,
+            _write(M, rep_size, Y, i),
+            _read(M, rep_size, p, i),
+            _read(M, rep_size, q, i),
+            t,
+            _read(M, rep_size, X, i),
+            β,
+        )
     end
     return Y
 end
-function jacobi_field(
-    M::ProductManifold,
-    p::ArrayPartition,
-    q::ArrayPartition,
-    t,
-    X::ArrayPartition,
-    β::Tβ,
-) where {Tβ}
-    return ArrayPartition(
-        map(
-            jacobi_field,
-            M.manifolds,
-            submanifold_components(M, p),
-            submanifold_components(M, q),
-            ntuple(_ -> t, length(M.manifolds)),
-            submanifold_components(M, X),
-            ntuple(_ -> β, length(M.manifolds)),
-        )...,
-    )
-end
-function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
-    map(
-        jacobi_field!,
-        M.manifolds,
-        submanifold_components(M, Y),
-        submanifold_components(M, p),
-        submanifold_components(M, q),
-        ntuple(_ -> t, length(M.manifolds)),
-        submanifold_components(M, X),
-        ntuple(_ -> β, length(M.manifolds)),
-    )
+function jacobi_field!(M::PowerManifoldNestedReplacing, Y, p, q, t, X, β::Tβ) where {Tβ}
+    rep_size = representation_size(M.manifold)
+    for i in get_iterator(M)
+        Y[i...] = jacobi_field(
+            M.manifold,
+            _read(M, rep_size, p, i),
+            _read(M, rep_size, q, i),
+            t,
+            _read(M, rep_size, X, i),
+            β,
+        )
+    end
     return Y
 end
