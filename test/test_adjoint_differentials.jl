@@ -59,4 +59,14 @@ using ManifoldDiff:
     @test adjoint_differential_log_argument(Mp, pP, qP, XP) == ZP
     adjoint_differential_log_argument!(Mp, YP, pP, qP, XP)
     @test ZP == YP
+
+    Mprod = ProductManifold(M, M, M)
+    pP = ArrayPartition(p, q, p)
+    qP = ArrayPartition(p, p, q)
+    XP = ArrayPartition(X, zero_vector(M, p), -X)
+    YP = allocate(XP)
+    ZP = ArrayPartition([0.0, π / 2, 0.0], [0.0, 0.0, 0.0], [π / 2, 0.0, 0.0])
+    @test adjoint_differential_log_argument(Mprod, pP, qP, XP) == ZP
+    adjoint_differential_log_argument!(Mprod, YP, pP, qP, XP)
+    @test ZP == YP
 end

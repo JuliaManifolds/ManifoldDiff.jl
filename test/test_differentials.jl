@@ -107,4 +107,32 @@ using ManifoldDiff:
         X = π / 8
         @test differential_log_argument(M, p, q, X) == X
     end
+    @testset "Differentials on Euclidean()" begin
+        M = Euclidean()
+        p = 0
+        q = π / 4
+        X = π / 8
+        @test differential_log_argument(M, p, q, X) == X
+    end
+
+    @testset "Differentials on ProductManifold" begin
+        M = ProductManifold(Sphere(2), SymmetricPositiveDefinite(2))
+        p = ArrayPartition([0.0, 0.0, 1.0], [1.0 0.0; 0.0 1.0])
+        Xp = ArrayPartition([-0.5, 1.0, 0.0], [0.5 1.0; 1.0 0.5])
+        q = exp(M, p, Xp)
+        # Test differentials (1) Dx of Log_xy
+        @test norm(M, p, differential_log_basepoint(M, p, p, Xp) + Xp) ≈ 0 atol =
+            4 * 10^(-16)
+        @test norm(M, q, differential_log_argument(M, p, q, zero_vector(M, p))) ≈ 0 atol =
+            4 * 10^(-16)
+        @test norm(M, p, differential_exp_basepoint(M, p, zero_vector(M, p), Xp) - Xp) ≈ 0 atol =
+            4 * 10^(-16)
+        @test norm(M, p, differential_exp_argument(M, p, zero_vector(M, p), Xp) - Xp) ≈ 0 atol =
+            4 * 10^(-16)
+
+        @test norm(M, q, differential_exp_basepoint(M, p, Xp, zero_vector(M, p))) ≈ 0 atol =
+            4 * 10.0^(-16)
+        @test norm(M, q, differential_exp_argument(M, p, Xp, zero_vector(M, p))) ≈ 0 atol =
+            4 * 10.0^(-16)
+    end
 end

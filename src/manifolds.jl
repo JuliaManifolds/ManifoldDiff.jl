@@ -23,8 +23,8 @@ function adjoint_Jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where
         adjoint_Jacobi_field!,
         M.manifolds,
         submanifold_components(M, Y),
-        submanifold_components(M, q),
         submanifold_components(M, p),
+        submanifold_components(M, q),
         ntuple(_ -> t, length(M.manifolds)),
         submanifold_components(M, X),
         ntuple(_ -> β, length(M.manifolds)),
@@ -98,5 +98,8 @@ function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     return Y
 end
 function jacobi_field(::Circle{ℝ}, p, q, t, X, β::Tβ) where {Tβ}
+    return X
+end
+function jacobi_field(::Euclidean{Tuple{}}, p, q, t, X, β::Tβ) where {Tβ}
     return X
 end
