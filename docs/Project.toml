@@ -9,7 +9,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
 Documenter = "0.27"
-ManifoldDiff = "0.1"
+ManifoldDiff = "0.2"
 ManifoldsBase = "0.13"
 Manifolds = "0.8"
-Plots = "1.10.5"
+Plots = "1"

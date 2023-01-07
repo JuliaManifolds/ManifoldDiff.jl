@@ -21,6 +21,7 @@ using ManifoldDiff:
     q = [0.0, 1.0, 0.0]
     M = Sphere(2)
     X = log(M, p, q)
+    X_qp = log(M, q, p)
     Y = similar(X)
     @testset "Differentials on Sn(2)" begin
         @test differential_log_basepoint(M, p, p, X) == -X
@@ -32,9 +33,9 @@ using ManifoldDiff:
         @test differential_log_argument(M, p, p, X) == X
         differential_log_argument!(M, Y, p, p, X) == X
         @test Y == X
-        @test_broken differential_log_argument(M, p, q, X) == zero_vector(M, q)
-        differential_log_argument!(M, Y, p, q, X)
-        @test_broken Y == zero_vector(M, q)
+        @test differential_log_argument(M, p, q, X_qp) == -X
+        differential_log_argument!(M, Y, p, q, X_qp)
+        @test Y == -X
         @test differential_exp_basepoint(M, p, zero_vector(M, p), X) == X
         differential_exp_basepoint!(M, Y, p, zero_vector(M, p), X)
         @test Y == X
@@ -48,6 +49,18 @@ using ManifoldDiff:
         @test norm(M, q, differential_exp_argument(M, p, X, zero_vector(M, p))) ≈ 0
         differential_exp_argument!(M, Y, p, X, zero_vector(M, p))
         @test norm(M, q, Y) ≈ 0
+        for t in [0, 0.15, 0.33, 0.66, 0.9]
+            @test differential_shortest_geodesic_startpoint(M, p, p, t, X) == (1 - t) * X
+            differential_shortest_geodesic_startpoint!(M, Y, p, p, t, X)
+            @test Y == (1 - t) * X
+            @test norm(
+                M,
+                p,
+                differential_shortest_geodesic_endpoint(M, p, p, t, X) - t * X,
+            ) ≈ 0 atol = 10.0^(-16)
+            differential_shortest_geodesic_endpoint!(M, Y, p, p, t, X)
+            @test norm(M, p, Y - t * X) ≈ 0 atol = 10.0^(-16)
+        end
     end
     @testset "Differentials on SPD(2)" begin
         #
