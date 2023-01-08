@@ -45,7 +45,7 @@ function riemannian_gradient!(
     X,
     p,
     Y;
-    embedding_metric = EuclideanMetric(),
+    embedding_metric::AbstractMetric = EuclideanMetric(),
 )
     project!(M, X, p, Y)
     change_representer!(M, X, embedding_metric, p, X)
