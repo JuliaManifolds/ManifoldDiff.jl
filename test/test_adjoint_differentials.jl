@@ -69,4 +69,20 @@ using ManifoldDiff:
     @test adjoint_differential_log_argument(Mprod, pP, qP, XP) == ZP
     adjoint_differential_log_argument!(Mprod, YP, pP, qP, XP)
     @test ZP == YP
+
+end
+
+@testset "Adjoint differentials on the Circle" begin
+    M = Circle()
+    p = 0
+    q = π / 4
+    X = π / 8
+    @test adjoint_differential_log_argument(M, p, q, X) == X
+end
+@testset "Adjoint differentials on Euclidean()" begin
+    M = Euclidean()
+    p = 0
+    q = π / 4
+    X = π / 8
+    @test adjoint_differential_log_argument(M, p, q, X) == X
 end

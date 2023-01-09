@@ -9,6 +9,8 @@ using ManifoldsBase
 
 using ManifoldsBase:
     AbstractBasis,
+    AbstractMetric,
+    EuclideanMetric,
     TangentSpaceType,
     PowerManifoldNested,
     PowerManifoldNestedReplacing,
@@ -166,6 +168,7 @@ include("differentials.jl")
 include("adjoint_differentials.jl")
 include("Jacobi_fields.jl")
 
+include("riemannian_diff.jl")
 include("embedded_diff.jl")
 
 function __init__()
@@ -186,8 +189,6 @@ function __init__()
 
     @require Manifolds = "1cead3c2-87b3-11e9-0ccd-23c62b72b94e" begin
         using .Manifolds
-        # riemannian_diff.jl requires metrics and they are currently defined in Manifolds.jl
-        include("riemannian_diff.jl")
         include("manifolds.jl")
     end
 
