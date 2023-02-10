@@ -171,6 +171,8 @@ include("Jacobi_fields.jl")
 include("riemannian_diff.jl")
 include("embedded_diff.jl")
 
+include("riemannian_grad.jl")
+
 function __init__()
     @require FiniteDiff = "6a86dc24-6348-571c-b903-95158fe2bd41" begin
         using .FiniteDiff

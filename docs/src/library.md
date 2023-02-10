@@ -38,6 +38,15 @@ Pages = ["riemannian_diff.jl"]
 Order = [:type, :function, :constant]
 ```
 
+## Riemannian gradients
+
+```@autodocs
+Modules = [ManifoldDiff]
+Pages = ["riemannian_grad.jl"]
+Order = [:type, :function, :constant]
+```
+
+
 ## Manifold-specific specializations
 
 ```@autodocs

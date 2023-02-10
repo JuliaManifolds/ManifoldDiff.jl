@@ -186,7 +186,7 @@ Then we require three tools
 * A [`project`](@ref) function to project tangent vectors from the embedding (at ``T_pℝ^m``)
   back onto the tangent space ``T_p\mathcal M``. This also includes possible changes
   of the representation of the tangent vector (e.g. in the Lie algebra or in a different data format).
-* A [`change_representer`](@ref) for non-isometrically embedded manifolds,
+* A [`change_representer`](https://juliamanifolds.github.io/Manifolds.jl/stable/manifolds/metric.html#Manifolds.change_metric-Tuple{AbstractManifold,%20AbstractMetric,%20Any,%20Any}) for non-isometrically embedded manifolds,
   i.e. where the tangent space ``T_p\mathcal M`` of the manifold does not inherit
   the inner product from restriction of the inner product from the tangent space ``T_pℝ^m``
   of the embedding
@@ -307,7 +307,7 @@ or rearranged ``⟨Y,W⟩ = ⟨Z,W⟩``. We then use the definition of the Riema
 ⟨\operatorname{grad} f(p), W⟩_p = Df(p)[X] = ⟨\operatorname{grad}f(p), W⟩ = ⟨\operatorname{proj}_{T_p\mathcal M}(\operatorname{grad}f(p)),W⟩
 \quad\text{for all } W \in T_p\mathcal M.
 ```
-Comparing the first and the last term, the remaining computation is the function [`change_representer`](@ref change_representer(M::AbstractManifold, G2::AbstractMetric, p, X)).
+Comparing the first and the last term, the remaining computation is the function [`change_representer`](https://juliamanifolds.github.io/Manifolds.jl/stable/manifolds/metric.html#Manifolds.change_metric-Tuple{AbstractManifold,%20AbstractMetric,%20Any,%20Any}).
 
 This method can also be implemented directly, if a more efficient/stable version is known.
 
