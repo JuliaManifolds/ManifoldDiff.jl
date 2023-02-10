@@ -53,13 +53,13 @@ Since it works in tangent spaces at argument and function value, methods might r
 retraction and an inverse retraction as well as a basis.
 
 In the tangent space itself, this backend then employs an (Euclidean)
-[`AbstractDiffBackend`](@ref)
+[`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend)
 
 # Constructor
 
     TangentDiffBackend(diff_backend)
 
-where `diff_backend` is an [`AbstractDiffBackend`](@ref) to be used on the tangent space.
+where `diff_backend` is an [`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend) to be used on the tangent space.
 
 With the keyword arguments
 
@@ -183,7 +183,7 @@ Then we require three tools
 
 * A function ``f̃: ℝ^m → ℝ`` such that its restriction to the manifold yields the cost
   function ``f`` of interest.
-* A [`project`](@ref) function to project tangent vectors from the embedding (at ``T_pℝ^m``)
+* A [`project`](https://juliamanifolds.github.io/ManifoldsBase.jl/stable/projections.html#ManifoldsBase.project-Tuple{AbstractManifold,%20Any,%20Any}) function to project tangent vectors from the embedding (at ``T_pℝ^m``)
   back onto the tangent space ``T_p\mathcal M``. This also includes possible changes
   of the representation of the tangent vector (e.g. in the Lie algebra or in a different data format).
 * A [`change_representer`](https://juliamanifolds.github.io/Manifolds.jl/stable/manifolds/metric.html#Manifolds.change_metric-Tuple{AbstractManifold,%20AbstractMetric,%20Any,%20Any}) for non-isometrically embedded manifolds,

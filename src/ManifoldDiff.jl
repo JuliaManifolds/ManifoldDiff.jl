@@ -36,7 +36,7 @@ struct NoneDiffBackend <: AbstractDiffBackend end
     _derivative(f, t[, backend::AbstractDiffBackend])
 
 Compute the derivative of a callable `f` at time `t` computed using the given `backend`,
-an object of type [`AbstractDiffBackend`](@ref). If the backend is not explicitly
+an object of type [`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend). If the backend is not explicitly
 specified, it is obtained using the function [`default_differential_backend`](@ref).
 
 This function calculates plain Euclidean derivatives, for Riemannian differentiation see
@@ -64,7 +64,7 @@ end
     _gradient(f, p[, backend::AbstractDiffBackend])
 
 Compute the gradient of a callable `f` at point `p` computed using the given `backend`,
-an object of type [`AbstractDiffBackend`](@ref). If the backend is not explicitly
+an object of type [`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend). If the backend is not explicitly
 specified, it is obtained using the function [`default_differential_backend`](@ref).
 
 This function calculates plain Euclidean gradients, for Riemannian gradient calculation see
