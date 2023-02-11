@@ -1,5 +1,5 @@
 @doc raw"""
-    differential_shortest_geodesic_startpoint(M, p, q, t, X)
+    Y = differential_shortest_geodesic_startpoint(M, p, q, t, X)
     differential_shortest_geodesic_startpoint!(M, Y, p, q, t, X)
 
 Compute ``D_p γ(t;p,q)[η]`` (in place of `Y`).
@@ -16,7 +16,7 @@ end
 
 
 @doc raw"""
-    differential_shortest_geodesic_endpoint(M, p, q, t, X)
+    Y = differential_shortest_geodesic_endpoint(M, p, q, t, X)
     differential_shortest_geodesic_endpoint!(M, Y, p, q, t, X)
 
 Compute ``D_qγ(t;p,q)[X]`` (in place of `Y`).
@@ -32,7 +32,7 @@ function differential_shortest_geodesic_endpoint!(M::AbstractManifold, Y, p, q, 
 end
 
 @doc raw"""
-    differential_exp_basepoint(M, p, X, Y)
+    Z = differential_exp_basepoint(M, p, X, Y)
     differential_exp_basepoint!(M, Z, p, X, Y)
 
 Compute ``D_p\exp_p X[Y]`` (in place of `Z`).
@@ -48,7 +48,7 @@ function differential_exp_basepoint!(M::AbstractManifold, Z, p, X, Y)
 end
 
 @doc raw"""
-    differential_exp_argument(M, p, X, Y)
+    Z = differential_exp_argument(M, p, X, Y)
     differential_exp_argument!(M, Z, p, X, Y)
 
 computes ``D_X\exp_pX[Y]`` (in place of `Z`).
@@ -65,7 +65,7 @@ function differential_exp_argument!(M::AbstractManifold, Z, p, X, Y)
 end
 
 @doc raw"""
-    differential_log_basepoint(M, p, q, X)
+    Y = differential_log_basepoint(M, p, q, X)
     differential_log_basepoint!(M, Y, p, q, X)
 
 computes ``D_p\log_pq[X]`` (in place of `Y`).
@@ -81,8 +81,8 @@ function differential_log_basepoint!(M::AbstractManifold, Y, p, q, X)
 end
 
 @doc raw"""
-    differential_log_argument(M, p, q, X)
-    differential_log_argument(M, Y, p, q, X)
+    Y = differential_log_argument(M, p, q, X)
+    differential_log_argument!(M, Y, p, q, X)
 
 computes ``D_q\log_pq[X]`` (in place of `Y`).
 
