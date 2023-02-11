@@ -45,10 +45,23 @@ This computation can also be done in-place of ``Y``.
 * `γt = geodesic(M, p, X, t)` the point on the geodesic at ``t``.
   This way if the point was computed earlier it can be resued here.
 """
-function shortest_geodesic_derivative(M, p, q, t::Number; γt = shortest_geodesic(M, p, q, t))
+function shortest_geodesic_derivative(
+    M,
+    p,
+    q,
+    t::Number;
+    γt = shortest_geodesic(M, p, q, t),
+)
     return parallel_transport_to(M, p, log(M, p, q), γt)
 end
-function shortest_geodesic_derivative!(M, Y, p, q, t::Number; γt = shortest_geodesic(M, p, q, t))
+function shortest_geodesic_derivative!(
+    M,
+    Y,
+    p,
+    q,
+    t::Number;
+    γt = shortest_geodesic(M, p, q, t),
+)
     log!(M, Y, p, q)
     parallel_transport_to!(M, Y, p, Y, γt)
     return Y
