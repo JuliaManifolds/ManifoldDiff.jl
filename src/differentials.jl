@@ -135,7 +135,7 @@ function differential_exp_argument_lie_approx!(M::AbstractManifold, Z, p, X, Y; 
 end
 
 @doc raw"""
-    inverse_retract_diff_argument_fd_approx(
+    differential_inverse_retract_argument_fd_approx(
         M::AbstractManifold,
         p,
         q,
@@ -158,7 +158,7 @@ retraction `invretr` and ``\operatorname{retr}`` is the retraction `retr`.
     > manifolds,” arXiv:1908.05875 [cs, math], Sep. 2019,
     > Available: http://arxiv.org/abs/1908.05875
 """
-function inverse_retract_diff_argument_fd_approx(
+function differential_inverse_retract_argument_fd_approx(
     M::AbstractManifold,
     p,
     q,
@@ -167,12 +167,12 @@ function inverse_retract_diff_argument_fd_approx(
     invretr::AbstractInverseRetractionMethod = default_inverse_retraction_method(M),
     h::Real = sqrt(eps(eltype(X))),
 )
-    Y = allocate_result(M, inverse_retract_diff_argument_fd_approx, X, p, q)
-    inverse_retract_diff_argument_fd_approx!(M, Y, p, q, X; retr, invretr, h)
+    Y = allocate_result(M, differential_inverse_retract_argument_fd_approx, X, p, q)
+    differential_inverse_retract_argument_fd_approx!(M, Y, p, q, X; retr, invretr, h)
     return Y
 end
 
-function inverse_retract_diff_argument_fd_approx!(
+function differential_inverse_retract_argument_fd_approx!(
     M::AbstractManifold,
     Y,
     p,
