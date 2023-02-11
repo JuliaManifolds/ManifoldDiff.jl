@@ -50,6 +50,6 @@ function shortest_geodesic_derivative(M, p, q, t; γt = shortest_geodesic(M, p, 
 end
 function shortest_geodesic_derivative!(M, Y, p, q, t; γt = shortest_geodesic(M, p, q, t))
     log!(M, Y, p, q)
-    parallel_transport_to!(M, Y, p, Y, q)
+    parallel_transport_to!(M, Y, p, Y, γt)
     return Y
 end

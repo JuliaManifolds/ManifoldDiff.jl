@@ -8,7 +8,11 @@ using Manifolds
 using ManifoldsBase
 using RecursiveArrayTools
 
-include("test_differentials.jl")
-include("test_adjoint_differentials.jl")
-include("differentiation.jl")
-include("manifold_specializations.jl")
+@testset "ManifoldDiff.jl" begin
+    include("test_differentials.jl")
+    include("test_adjoint_differentials.jl")
+    include("differentiation.jl")
+    include("manifold_specializations.jl")
+    include("test_gradients.jl")
+    include("test_derivatives.jl")
+end
