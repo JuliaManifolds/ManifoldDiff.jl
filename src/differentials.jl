@@ -1,4 +1,3 @@
-
 @doc raw"""
     differential_shortest_geodesic_startpoint(M, p, q, t, X)
     differential_shortest_geodesic_startpoint!(M, Y, p, q, t, X)

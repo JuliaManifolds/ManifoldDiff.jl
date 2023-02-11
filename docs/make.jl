@@ -1,7 +1,5 @@
-using Plots, Manifolds, ManifoldsBase, ManifoldDiff, Documenter, PyPlot
-ENV["GKSwstype"] = "100"
-# required for loading the manifold tests functions
-using Test, ForwardDiff, ReverseDiff, FiniteDifferences, Zygote
+using ForwardDiff, ReverseDiff, FiniteDifferences, Zygote
+using Manifolds, ManifoldsBase, ManifoldDiff, Documenter
 
 makedocs(
     # for development, we disable prettyurls

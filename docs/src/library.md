@@ -2,24 +2,45 @@
 
 Documentation for `ManifoldDiff.jl`'s methods and types for finite differences and automatic differentiation.
 
-## Differentials
+## Derivatives
 
 ```@autodocs
 Modules = [ManifoldDiff]
-Pages = ["differentials.jl"]
+Pages = ["derivatives.jl"]
 Order = [:type, :function, :constant]
+Private = true
 ```
+
+## Differentials and their adjoints
 
 ```@autodocs
 Modules = [ManifoldDiff]
 Pages = ["adjoint_differentials.jl"]
 Order = [:type, :function, :constant]
+Private = true
+```
+
+```@autodocs
+Modules = [ManifoldDiff]
+Pages = ["differentials.jl"]
+Order = [:type, :function, :constant]
+Private = true
 ```
 
 ```@autodocs
 Modules = [ManifoldDiff]
 Pages = ["diagonalizing_projectors.jl"]
 Order = [:type, :function, :constant]
+Private = true
+```
+
+## Gradients
+
+```@autodocs
+Modules = [ManifoldDiff]
+Pages = ["gradients.jl"]
+Order = [:type, :function, :constant]
+Private = true
 ```
 
 ## Jacobi fields
@@ -37,15 +58,6 @@ Modules = [ManifoldDiff]
 Pages = ["riemannian_diff.jl"]
 Order = [:type, :function, :constant]
 ```
-
-## Riemannian gradients
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["riemannian_grad.jl"]
-Order = [:type, :function, :constant]
-```
-
 
 ## Manifold-specific specializations
 
@@ -81,18 +93,12 @@ Pages = ["finite_differences.jl"]
 Order = [:type, :function, :constant]
 ```
 
-### ReverseDiff.jl
+## Internal functions
 
 ```@autodocs
 Modules = [ManifoldDiff]
-Pages = ["reverse_diff.jl"]
+Pages = ["ManifoldDiff.jl"]
 Order = [:type, :function, :constant]
-```
-
-### Zygote.jl
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["zygote.jl"]
-Order = [:type, :function, :constant]
+Private = true
+Public=false
 ```
