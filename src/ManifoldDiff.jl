@@ -14,6 +14,7 @@ using ManifoldsBase:
     TangentSpaceType,
     PowerManifoldNested,
     PowerManifoldNestedReplacing,
+    allocate_result,
     get_iterator,
     _write,
     _read
@@ -36,7 +37,7 @@ struct NoneDiffBackend <: AbstractDiffBackend end
     _derivative(f, t[, backend::AbstractDiffBackend])
 
 Compute the derivative of a callable `f` at time `t` computed using the given `backend`,
-an object of type [`AbstractDiffBackend`](@ref). If the backend is not explicitly
+an object of type [`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend). If the backend is not explicitly
 specified, it is obtained using the function [`default_differential_backend`](@ref).
 
 This function calculates plain Euclidean derivatives, for Riemannian differentiation see
@@ -64,7 +65,7 @@ end
     _gradient(f, p[, backend::AbstractDiffBackend])
 
 Compute the gradient of a callable `f` at point `p` computed using the given `backend`,
-an object of type [`AbstractDiffBackend`](@ref). If the backend is not explicitly
+an object of type [`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend). If the backend is not explicitly
 specified, it is obtained using the function [`default_differential_backend`](@ref).
 
 This function calculates plain Euclidean gradients, for Riemannian gradient calculation see
@@ -164,12 +165,15 @@ end
 
 include("diagonalizing_projectors.jl")
 
-include("differentials.jl")
 include("adjoint_differentials.jl")
+include("derivatives.jl")
+include("differentials.jl")
+include("gradients.jl")
 include("Jacobi_fields.jl")
 
 include("riemannian_diff.jl")
 include("embedded_diff.jl")
+
 
 function __init__()
     @require FiniteDiff = "6a86dc24-6348-571c-b903-95158fe2bd41" begin

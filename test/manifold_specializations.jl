@@ -6,7 +6,7 @@ using LinearAlgebra
 using ManifoldDiff:
     differential_exp_argument,
     differential_exp_argument_lie_approx,
-    inverse_retract_diff_argument_fd_approx
+    differential_inverse_retract_argument_fd_approx
 
 @testset "Rotations(3)" begin
     M = Rotations(3)
@@ -59,7 +59,7 @@ end
     @test isapprox(
         M,
         q,
-        inverse_retract_diff_argument_fd_approx(M, p, q, X; h = 1e-4),
+        differential_inverse_retract_argument_fd_approx(M, p, q, X; h = 1e-4),
         diff_ref;
         atol = 1e-7,
     )

@@ -18,7 +18,7 @@ Compute eigenvalues of the Jacobi operator $Y → R(Y,X)X$, where $R$ is the cur
 endomorphism, together with projectors onto eigenspaces of the operator.
 Projectors are objects of subtypes of [`AbstractProjector`](@ref).
 
-By default constructs projectors using the [`DiagonalizingOrthonormalBasis`](@ref).
+By default constructs projectors using the [`DiagonalizingOrthonormalBasis`](https://juliamanifolds.github.io/ManifoldsBase.jl/stable/bases.html#ManifoldsBase.DiagonalizingOrthonormalBasis).
 """
 function diagonalizing_projectors(M::AbstractManifold, p, X)
     B = get_basis(M, p, DiagonalizingOrthonormalBasis(X))
@@ -31,7 +31,7 @@ end
 
 """
     ProjectorOntoVector{TM<:AbstractManifold,TP,TX}
-    
+
 A structure that represents projector onto the subspace of the tangent space at `p`
 from manifold `M` spanned by tangent vector `X` of unit norm.
 
@@ -51,7 +51,7 @@ end
 
 """
     CoprojectorOntoVector{TM<:AbstractManifold,TP,TX}
-    
+
 
 A structure that represents projector onto the subspace of the tangent space at `p`
 from manifold `M` othogonal to vector `X` of unit norm.
