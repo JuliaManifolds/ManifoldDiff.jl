@@ -8,8 +8,10 @@ Providing a derivative, differential or gradient for a given function, this pack
 For example
 
 * `grad_f` for a gradient ``\operatorname{grad} f``
-* `differential_f` for ``Df``
-* `differential_f_variable` if `f` has mutliple variables / parameters, since a usual writing in math is ``f_x`` in this case
+* `differential_f` for ``Df`` (also called pushforward)
+* `differential_f_variable` if `f` has multiple variables / parameters, since a usual writing in math is ``f_x`` in this case
+* `adjoint_differential_f` for pullbacks
+* `adjoint_differential_f_variable` if `f` has multiple variables / parameters
 * `f_derivative` for ``f'``
 
 the scheme is not completely fixed but tries to follow the mathematical notation.
