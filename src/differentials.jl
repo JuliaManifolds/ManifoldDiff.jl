@@ -1,6 +1,5 @@
-
 @doc raw"""
-    differential_shortest_geodesic_startpoint(M, p, q, t, X)
+    Y = differential_shortest_geodesic_startpoint(M, p, q, t, X)
     differential_shortest_geodesic_startpoint!(M, Y, p, q, t, X)
 
 Compute ``D_p γ(t;p,q)[η]`` (in place of `Y`).
@@ -17,7 +16,7 @@ end
 
 
 @doc raw"""
-    differential_shortest_geodesic_endpoint(M, p, q, t, X)
+    Y = differential_shortest_geodesic_endpoint(M, p, q, t, X)
     differential_shortest_geodesic_endpoint!(M, Y, p, q, t, X)
 
 Compute ``D_qγ(t;p,q)[X]`` (in place of `Y`).
@@ -33,7 +32,7 @@ function differential_shortest_geodesic_endpoint!(M::AbstractManifold, Y, p, q, 
 end
 
 @doc raw"""
-    differential_exp_basepoint(M, p, X, Y)
+    Z = differential_exp_basepoint(M, p, X, Y)
     differential_exp_basepoint!(M, Z, p, X, Y)
 
 Compute ``D_p\exp_p X[Y]`` (in place of `Z`).
@@ -49,7 +48,7 @@ function differential_exp_basepoint!(M::AbstractManifold, Z, p, X, Y)
 end
 
 @doc raw"""
-    differential_exp_argument(M, p, X, Y)
+    Z = differential_exp_argument(M, p, X, Y)
     differential_exp_argument!(M, Z, p, X, Y)
 
 computes ``D_X\exp_pX[Y]`` (in place of `Z`).
@@ -66,7 +65,7 @@ function differential_exp_argument!(M::AbstractManifold, Z, p, X, Y)
 end
 
 @doc raw"""
-    differential_log_basepoint(M, p, q, X)
+    Y = differential_log_basepoint(M, p, q, X)
     differential_log_basepoint!(M, Y, p, q, X)
 
 computes ``D_p\log_pq[X]`` (in place of `Y`).
@@ -82,8 +81,8 @@ function differential_log_basepoint!(M::AbstractManifold, Y, p, q, X)
 end
 
 @doc raw"""
-    differential_log_argument(M, p, q, X)
-    differential_log_argument(M, Y, p, q, X)
+    Y = differential_log_argument(M, p, q, X)
+    differential_log_argument!(M, Y, p, q, X)
 
 computes ``D_q\log_pq[X]`` (in place of `Y`).
 
@@ -136,7 +135,7 @@ function differential_exp_argument_lie_approx!(M::AbstractManifold, Z, p, X, Y; 
 end
 
 @doc raw"""
-    inverse_retract_diff_argument_fd_approx(
+    differential_inverse_retract_argument_fd_approx(
         M::AbstractManifold,
         p,
         q,
@@ -159,7 +158,7 @@ retraction `invretr` and ``\operatorname{retr}`` is the retraction `retr`.
     > manifolds,” arXiv:1908.05875 [cs, math], Sep. 2019,
     > Available: http://arxiv.org/abs/1908.05875
 """
-function inverse_retract_diff_argument_fd_approx(
+function differential_inverse_retract_argument_fd_approx(
     M::AbstractManifold,
     p,
     q,
@@ -168,12 +167,12 @@ function inverse_retract_diff_argument_fd_approx(
     invretr::AbstractInverseRetractionMethod = default_inverse_retraction_method(M),
     h::Real = sqrt(eps(eltype(X))),
 )
-    Y = allocate_result(M, inverse_retract_diff_argument_fd_approx, X, p, q)
-    inverse_retract_diff_argument_fd_approx!(M, Y, p, q, X; retr, invretr, h)
+    Y = allocate_result(M, differential_inverse_retract_argument_fd_approx, X, p, q)
+    differential_inverse_retract_argument_fd_approx!(M, Y, p, q, X; retr, invretr, h)
     return Y
 end
 
-function inverse_retract_diff_argument_fd_approx!(
+function differential_inverse_retract_argument_fd_approx!(
     M::AbstractManifold,
     Y,
     p,
