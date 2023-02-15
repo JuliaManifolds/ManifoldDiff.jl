@@ -14,5 +14,5 @@ Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 [compat]
 Documenter = "0.27"
 ManifoldDiff = "0.3"
-ManifoldsBase = "0.13"
+ManifoldsBase = "0.14"
 Manifolds = "0.8"
