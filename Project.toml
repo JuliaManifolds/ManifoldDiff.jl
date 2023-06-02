@@ -1,13 +1,29 @@
 name = "ManifoldDiff"
 uuid = "af67fdf4-a580-4b9f-bbec-742ef357defd"
 authors = ["Seth Axen <seth.axen@gmail.com>", "Mateusz Baran <mateuszbaran89@gmail.com>", "Ronny Bergmann <manopt@ronnybergmann.net>"]
-version = "0.3.1"
+version = "0.3.2"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 ManifoldsBase = "3362f125-f0bb-47a3-aa74-596ffd7ef2fb"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 Requires = "ae029012-a4dd-5104-9daa-d747884805df"
+
+[weakdeps]
+FiniteDiff = "6a86dc24-6348-571c-b903-95158fe2bd41"
+FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+Manifolds = "1cead3c2-87b3-11e9-0ccd-23c62b72b94e"
+ReverseDiff = "37e2e3b7-166d-5795-8a7a-e32c996b4267"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
+
+[extensions]
+ManifoldDiffFiniteDiffExt = "FiniteDiff"
+ManifoldDiffFiniteDifferencesExt = "FiniteDifferences"
+ManifoldDiffForwardDiffExt = "ForwardDiff"
+ManifoldDiffManifoldsExt = "Manifolds"
+ManifoldDiffReverseDiffExt = "ReverseDiff"
+ManifoldDiffZygoteExt = "Zygote"
 
 [compat]
 ChainRules = "1"

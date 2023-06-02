@@ -118,21 +118,7 @@ function differential_exp_argument_lie_approx(M::AbstractManifold, p, X, Y; n = 
     return differential_exp_argument_lie_approx!(M, Z, p, X, Y; n)
 end
 
-function differential_exp_argument_lie_approx!(M::AbstractManifold, Z, p, X, Y; n = 20)
-    tmp = copy(M, p, Y)
-    a = -1.0
-    zero_vector!(M, Z, p)
-    for k in 0:n
-        a *= -1 // (k + 1)
-        Z .+= a .* tmp
-        if k < n
-            copyto!(tmp, lie_bracket(M, X, tmp))
-        end
-    end
-    q = exp(M, p, X)
-    translate_diff!(M, Z, q, Identity(M), Z)
-    return Z
-end
+function differential_exp_argument_lie_approx! end
 
 @doc raw"""
     differential_inverse_retract_argument_fd_approx(
