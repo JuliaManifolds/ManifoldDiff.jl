@@ -1,4 +1,18 @@
-function adjoint_Jacobi_field(
+module ManifoldDiffManifoldsExt
+
+if isdefined(Base, :get_extension)
+    using ManifoldDiff
+    using ManifoldDiff: ProjectorOntoVector, CoprojectorOntoVector, IdentityProjector
+    using Manifolds
+else
+    # imports need to be relative for Requires.jl-based workflows:
+    # https://github.com/JuliaArrays/ArrayInterface.jl/pull/387
+    using ..ManifoldDiff
+    using ..ManifoldDiff: ProjectorOntoVector, CoprojectorOntoVector, IdentityProjector
+    using ..Manifolds
+end
+
+function ManifoldDiff.adjoint_Jacobi_field(
     M::ProductManifold,
     p::ArrayPartition,
     q::ArrayPartition,
@@ -8,7 +22,7 @@ function adjoint_Jacobi_field(
 ) where {Tβ}
     return ArrayPartition(
         map(
-            adjoint_Jacobi_field,
+            ManifoldDiff.adjoint_Jacobi_field,
             M.manifolds,
             submanifold_components(M, p),
             submanifold_components(M, q),
@@ -18,9 +32,17 @@ function adjoint_Jacobi_field(
         )...,
     )
 end
-function adjoint_Jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
+function ManifoldDiff.adjoint_Jacobi_field!(
+    M::ProductManifold,
+    Y,
+    p,
+    q,
+    t,
+    X,
+    β::Tβ,
+) where {Tβ}
     map(
-        adjoint_Jacobi_field!,
+        ManifoldDiff.adjoint_Jacobi_field!,
         M.manifolds,
         submanifold_components(M, Y),
         submanifold_components(M, p),
@@ -31,14 +53,21 @@ function adjoint_Jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where
     )
     return Y
 end
-function adjoint_Jacobi_field(::Circle{ℝ}, p, q, t, X, β::Tβ) where {Tβ}
+function ManifoldDiff.adjoint_Jacobi_field(::Circle{ℝ}, p, q, t, X, β::Tβ) where {Tβ}
     return X
 end
-function adjoint_Jacobi_field(::Euclidean{Tuple{}}, p, q, t, X, β::Tβ) where {Tβ}
+function ManifoldDiff.adjoint_Jacobi_field(
+    ::Euclidean{Tuple{}},
+    p,
+    q,
+    t,
+    X,
+    β::Tβ,
+) where {Tβ}
     return X
 end
 
-function diagonalizing_projectors(M::AbstractSphere{ℝ}, p, X)
+function ManifoldDiff.diagonalizing_projectors(M::AbstractSphere{ℝ}, p, X)
     X_norm = norm(M, p, X)
     X_normed = X / X_norm
     return (
@@ -47,7 +76,7 @@ function diagonalizing_projectors(M::AbstractSphere{ℝ}, p, X)
     )
 end
 
-function diagonalizing_projectors(M::Hyperbolic, p, X)
+function ManifoldDiff.diagonalizing_projectors(M::Hyperbolic, p, X)
     X_norm = norm(M, p, X)
     X_normed = X / X_norm
     return (
@@ -56,11 +85,11 @@ function diagonalizing_projectors(M::Hyperbolic, p, X)
     )
 end
 
-function diagonalizing_projectors(::Euclidean, p, X)
+function ManifoldDiff.diagonalizing_projectors(::Euclidean, p, X)
     return ((zero(number_eltype(p)), IdentityProjector()),)
 end
 
-function diagonalizing_projectors(M::Circle{ℝ}, p, X)
+function ManifoldDiff.diagonalizing_projectors(M::Circle{ℝ}, p, X)
     sbv = sign(X[])
     proj = ProjectorOntoVector(
         M,
@@ -70,7 +99,7 @@ function diagonalizing_projectors(M::Circle{ℝ}, p, X)
     return ((zero(number_eltype(p)), proj),)
 end
 
-function jacobi_field(
+function ManifoldDiff.jacobi_field(
     M::ProductManifold,
     p::ArrayPartition,
     q::ArrayPartition,
@@ -80,7 +109,7 @@ function jacobi_field(
 ) where {Tβ}
     return ArrayPartition(
         map(
-            jacobi_field,
+            ManifoldDiff.jacobi_field,
             M.manifolds,
             submanifold_components(M, p),
             submanifold_components(M, q),
@@ -90,9 +119,9 @@ function jacobi_field(
         )...,
     )
 end
-function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
+function ManifoldDiff.jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     map(
-        jacobi_field!,
+        ManifoldDiff.jacobi_field!,
         M.manifolds,
         submanifold_components(M, Y),
         submanifold_components(M, p),
@@ -103,9 +132,37 @@ function jacobi_field!(M::ProductManifold, Y, p, q, t, X, β::Tβ) where {Tβ}
     )
     return Y
 end
-function jacobi_field(::Circle{ℝ}, p, q, t, X, β::Tβ) where {Tβ}
+function ManifoldDiff.jacobi_field(::Circle{ℝ}, p, q, t, X, β::Tβ) where {Tβ}
     return X
 end
-function jacobi_field(::Euclidean{Tuple{}}, p, q, t, X, β::Tβ) where {Tβ}
+function ManifoldDiff.jacobi_field(::Euclidean{Tuple{}}, p, q, t, X, β::Tβ) where {Tβ}
     return X
+end
+
+### differentials
+
+function ManifoldDiff.differential_exp_argument_lie_approx!(
+    M::AbstractManifold,
+    Z,
+    p,
+    X,
+    Y;
+    n = 20,
+)
+    tmp = copy(M, p, Y)
+    a = -1.0
+    zero_vector!(M, Z, p)
+    for k in 0:n
+        a *= -1 // (k + 1)
+        Z .+= a .* tmp
+        if k < n
+            copyto!(tmp, lie_bracket(M, X, tmp))
+        end
+    end
+    q = exp(M, p, X)
+    translate_diff!(M, Z, q, Identity(M), Z)
+    return Z
+end
+
+
 end
