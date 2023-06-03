@@ -190,10 +190,6 @@ function __init__()
             include("../ext/ManifoldDiffForwardDiffExt.jl")
         end
 
-        @require Manifolds = "1cead3c2-87b3-11e9-0ccd-23c62b72b94e" begin
-            include("../ext/ManifoldDiffManifoldsExt.jl")
-        end
-
         @require ReverseDiff = "37e2e3b7-166d-5795-8a7a-e32c996b4267" begin
             include("../ext/ManifoldDiffReverseDiffExt.jl")
         end
