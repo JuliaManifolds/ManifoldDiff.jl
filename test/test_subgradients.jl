@@ -1,5 +1,6 @@
 using Manifolds
 using ManifoldsBase
+using Random
 
 @testset "Subgradients" begin
     M = Sphere(2)
