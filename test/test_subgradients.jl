@@ -7,8 +7,8 @@ using ManifoldsBase
     @testset "Subgradient of the distance function" begin
         q = p
         X = zero_vector(M, q)
-        ManifoldDiff.grad_distance!(M, X, q, p)
-        Y = ManifoldDiff.grad_distance(M, q, p)
+        ManifoldDiff.subgrad_distance!(M, X, q, p)
+        Y = ManifoldDiff.subgrad_distance(M, q, p)
         @test is_vector(M, p, X)
         @test norm(M, p, X) ≤ 1.0
         @test is_vector(M, p, Y)
