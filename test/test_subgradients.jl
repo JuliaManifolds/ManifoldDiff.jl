@@ -5,6 +5,7 @@ using Random
 @testset "Subgradients" begin
     M = Sphere(2)
     p = [0.0, 0.0, 1.0]
+    r = [1.0, 0.0, 0.0]
     @testset "Subgradient of the distance function" begin
         q = p
         X = zero_vector(M, q)
@@ -15,5 +16,8 @@ using Random
         @test norm(M, p, X) ≤ 1.0
         @test is_vector(M, p, Y)
         @test norm(M, p, Y) ≤ 1.0
+        Z = ManifoldDiff.grad_distance(M, p, r)
+        W = ManifoldDiff.subgrad_distance(M, p, r; c = 2)
+        @test Z == W
     end
 end
