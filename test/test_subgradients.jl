@@ -8,6 +8,7 @@ using Random
     @testset "Subgradient of the distance function" begin
         q = p
         X = zero_vector(M, q)
+        Random.seed!(42)
         ManifoldDiff.subgrad_distance!(M, X, q, p)
         Y = ManifoldDiff.subgrad_distance(M, q, p)
         @test is_vector(M, p, X)
