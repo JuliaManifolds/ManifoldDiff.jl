@@ -1,7 +1,7 @@
 
 @doc raw"""
-    subgrad_distance(M, q, p[, c = 1, atol=eps(eltype(p))])
-    subgrad_distance!(M, X, q, p[, c = 1, atol=eps(eltype(p))])
+    subgrad_distance(M, q, p; c = 1, atol=eps(eltype(p))])
+    subgrad_distance!(M, X, q, p; c = 1, atol=eps(eltype(p))])
 
 compute the subgradient of the distance (in place of `X`)
 
