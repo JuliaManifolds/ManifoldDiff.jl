@@ -13,7 +13,7 @@ to a fixed point `q` on the manifold `M` and `c` is an
 integer. The subgradient reads
 
 ```math
-\operatorname{grad}f(p) = -d_{\mathcal M}^{c-2}(p, q)\log_pq
+\partial f(p) = -d_{\mathcal M}^{c-2}(p, q)\log_pq
 ```
 
 for ``c\neq 1`` or ``p\neq  q``. Note that for the remaining case ``c=1``,
