@@ -18,12 +18,12 @@ using Random
         @test is_vector(M, p, Y)
         @test norm(M, p, Y) ≤ 1.0
         Z = ManifoldDiff.grad_distance(M, p, r)
-        W = ManifoldDiff.subgrad_distance(M, p, r; c = 2)
+        W = ManifoldDiff.subgrad_distance(M, p, r, 2)
         @test Z == W
 
         X = zero_vector(M, p)
-        ManifoldDiff.subgrad_distance!(M, X, p, q; c = 2)
-        Y = ManifoldDiff.subgrad_distance(M, p, q; c = 2)
+        ManifoldDiff.subgrad_distance!(M, X, p, q, 2)
+        Y = ManifoldDiff.subgrad_distance(M, p, q, 2)
         Z = [0.0, 0.0, -π / 2] # known solution
         @test X == Y
         @test X == Z
