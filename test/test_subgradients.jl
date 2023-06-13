@@ -17,6 +17,7 @@ using Random
         @test Y == X
         @test is_vector(M, p, X)
         @test norm(M, p, X) ≤ 1.0
+        ManifoldDiff.subgrad_distance!(M, Y, w, p, 1)
         @test is_vector(M, p, Y)
         @test norm(M, p, Y) ≤ 1.0
         Z = ManifoldDiff.grad_distance(M, p, r)
