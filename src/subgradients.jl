@@ -51,7 +51,7 @@ function normal_cone_vector(M, p)
     return Y
 end
 function normal_cone_vector!(M, Y, p)
-    ManifoldsBase.rand!(M, Y; vector_at=p)
+    ManifoldsBase.rand!(M, Y; vector_at = p)
     (norm(M, p, Y) > 1.0) && (Y ./= norm(M, p, Y))
     Y .*= rand()
     return Y
