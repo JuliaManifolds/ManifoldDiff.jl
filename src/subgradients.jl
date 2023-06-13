@@ -22,7 +22,7 @@ for ``c\neq 1`` or ``p\neq  q``. Note that for the remaining case ``c=1``,
 # Optional
 
 * `c` – (`1`) the exponent of the distance,  i.e. the default is the distance
-* `atol` – (`eps(eltype(p))`) the tolerance to use when evaluating the distance between `p` and `q`.
+* `atol` – (`0`) the tolerance to use when evaluating the distance between `p` and `q`.
 """
 function subgrad_distance(M, q, p, c::Int = 2; atol = 0)
     if c == 2
@@ -46,13 +46,17 @@ function subgrad_distance!(M, X, q, p, c::Int = 2; atol = 0)
 end
 function normal_cone_vector(M, p)
     Y = rand(M; vector_at = p)
-    (norm(M, p, Y) > 1.0) && (Y ./= norm(M, p, Y))
-    Y .*= rand()
+    if norm(M, p, Y) > 1.0
+        Y ./= norm(M, p, Y)
+        Y .*= rand()
+    end
     return Y
 end
 function normal_cone_vector!(M, Y, p)
     ManifoldsBase.rand!(M, Y; vector_at = p)
-    (norm(M, p, Y) > 1.0) && (Y ./= norm(M, p, Y))
-    Y .*= rand()
+    if norm(M, p, Y) > 1.0
+        Y ./= norm(M, p, Y)
+        Y .*= rand()
+    end
     return Y
 end
