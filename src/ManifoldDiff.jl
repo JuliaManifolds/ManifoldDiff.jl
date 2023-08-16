@@ -203,7 +203,7 @@ function __init__()
     # There is likely no way to set defaults without Requires.jl
     @require FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000" begin
         if default_differential_backend() === NoneDiffBackend()
-            set_default_differential_backend!(FiniteDifferencesBackend())
+            set_default_differential_backend!(FiniteDifferencesBackend()) #This expects a method in the inner ()?
         end
     end
 

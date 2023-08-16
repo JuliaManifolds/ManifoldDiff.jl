@@ -176,3 +176,17 @@ function differential_inverse_retract_argument_fd_approx!(
     Y ./= 2 * h
     return Y
 end
+
+@doc raw"""
+    differential_project_basepoint(M, p, X, Y)
+    differential_project_basepoint!(M, Z, p, X, Y)
+
+Compute the differential of the projection ``\operatorname{proj}_{T_p\mathcal M}(X)``
+```math
+D_p \operatorname{proj}_{T_p\mathcal M}(X)[Y]
+```
+with respect to the `basepoint` ``p`` (in place of `Z`).
+"""
+differential_project_basepoint(M::AbstractManifold, p, X, Y)
+
+differential_project_basepoint!(M::AbstractManifold, Z, p, X, Y)

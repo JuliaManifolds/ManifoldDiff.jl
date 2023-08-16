@@ -335,3 +335,43 @@ function riemannian_gradient!(
     change_representer!(M, X, embedding_metric, p, X)
     return X
 end
+
+@doc raw"""
+    riemannian_Hessian(M, p, eG, eH, X)
+    riemannian_Hessian!(M, Y, p, eG, eH, X)
+
+Convert the Euclidean Hessian `eH=```\operatorname{Hess} \tilde f(p) [X]``
+of a function ``f \colon \mathcal M \to \mathbb R``, which is the restriction of ``\tilde f`` to ``\mathcal M``,
+given additionally the (Euclidean) gradient ``\operatorname{grad} \tilde f(p)``.
+
+By default it uses the following computation:
+
+Let ``P_Y(X) = D_p(\operatorname{proj}_{T_p\mathcal M}(X)[Y]``, ``Y \in T_o\mathcal M``
+denote the differential of
+the projection onto ``T_p\mathcal M`` with respect to ``p`` (at ``X`` in direction ``Y``) of ``Y`` onto the
+tangent space at ``p``, cf. [`differential_project_basepoint`](@ref)`(M, p, X, Y)`.
+We further denote by ``\operatorname{proj}_{N_p\mathcal M}(X) = X - \operatorname{proj}_{T_p\mathcal M}(X)``
+the projection onto the normal space at ``p``
+
+Then, following Boumal, 2023, Section 5.11 we can compute
+
+```math
+\operatorname{Hess} f(p)[X]
+= \operatorname{proj}_{T_p\mathcal M}\bigl(\operatorname{Hess} \tilde f(p)[X])
++ \mathcal P_X\Bigl( \operatorname{proj}_{N_p\mathcal M}\bigl( \operatorname{grad} \tilde f (p) \bigr) \Bigr)
+```
+
+This method can also be implemented directly, if a more efficient/stable version is known.
+
+The function is inspired by `ehess2rhess` in the [Matlab package Manopt](https://manopt.org).
+"""
+function riemannian_Hessian(M::AbstractManifold, p, eG, eH, X)
+    Y = zero_vector(M, p)
+    riemannian_gradient!(M, Y, p, eG, eH, X)
+    return Y
+end
+function riemannian_Hessian!(M::AbstractManifold, Y, p, eG, eH, X)
+    project!(M, Y, p, eH) #first term
+    Y .= Y + differential_project_basepoint(M, p, eG - project(M, p, eG), X)
+    return Y
+end
