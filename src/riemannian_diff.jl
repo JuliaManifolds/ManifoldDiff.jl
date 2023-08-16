@@ -346,10 +346,10 @@ given additionally the (Euclidean) gradient ``\operatorname{grad} \tilde f(p)``.
 
 By default it uses the following computation:
 
-Let ``P_Y(X) = D_p(\operatorname{proj}_{T_p\mathcal M}(X)[Y]``, ``Y \in T_o\mathcal M``
+Let ``P_X(Y) = D_p(\operatorname{proj}_{T_p\mathcal M}(Y)[X]``, where ``Y \in T_p\mathcal M``
 denote the differential of
-the projection onto ``T_p\mathcal M`` with respect to ``p`` (at ``X`` in direction ``Y``) of ``Y`` onto the
-tangent space at ``p``, cf. [`differential_project_basepoint`](@ref)`(M, p, X, Y)`.
+the projection onto ``T_p\mathcal M`` with respect to ``p`` (at ``X`` in direction ``Y``).
+Here ``X`` is a tangent vector in the embedding, cf. [`differential_project_basepoint`](@ref)`(M, p, X, Y)`.
 We further denote by ``\operatorname{proj}_{N_p\mathcal M}(X) = X - \operatorname{proj}_{T_p\mathcal M}(X)``
 the projection onto the normal space at ``p``
 
