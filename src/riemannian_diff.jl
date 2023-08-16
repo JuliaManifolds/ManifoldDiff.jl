@@ -367,7 +367,7 @@ The function is inspired by `ehess2rhess` in the [Matlab package Manopt](https:/
 """
 function riemannian_Hessian(M::AbstractManifold, p, eG, eH, X)
     Y = zero_vector(M, p)
-    riemannian_gradient!(M, Y, p, eG, eH, X)
+    riemannian_Hessian!(M, Y, p, eG, eH, X)
     return Y
 end
 function riemannian_Hessian!(M::AbstractManifold, Y, p, eG, eH, X)
