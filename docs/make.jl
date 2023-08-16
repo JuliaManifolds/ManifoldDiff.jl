@@ -1,5 +1,5 @@
-using ForwardDiff, ReverseDiff, FiniteDifferences, Zygote
 using Manifolds, ManifoldsBase, ManifoldDiff, Documenter
+using ForwardDiff, ReverseDiff, FiniteDifferences, Zygote
 
 makedocs(
     # for development, we disable prettyurls
