@@ -182,11 +182,24 @@ end
     differential_project_basepoint!(M, Z, p, X, Y)
 
 Compute the differential of the projection ``\operatorname{proj}_{T_p\mathcal M}(X)``
+
 ```math
-D_p \operatorname{proj}_{T_p\mathcal M}(X)[Y]
+D_p \operatorname{proj}_{T_p\mathcal M}(X)[Y],
 ```
-with respect to the `basepoint` ``p`` (in place of `Z`).
+
+with respect to the `basepoint` ``p``, i.e. ``X`` is a tangent vector in the embedding, ``Y \in T_p\mathcal M``, as well as the result.
 """
 differential_project_basepoint(M::AbstractManifold, p, X, Y)
 
+@doc raw"""
+    differential_project_basepoint(M, p, X, Y)
+    differential_project_basepoint!(M, Z, p, X, Y)
+
+Compute the differential of the projection ``\operatorname{proj}_{T_p\mathcal M}(X)``
+```math
+D_p \operatorname{proj}_{T_p\mathcal M}(X)[Y]
+```
+with respect to the `basepoint` ``p`` in place of `Z`,
+i.e. ``X`` is a tangent vector in the embedding, and ``Y,Z \in T_p\mathcal M``.
+"""
 differential_project_basepoint!(M::AbstractManifold, Z, p, X, Y)
