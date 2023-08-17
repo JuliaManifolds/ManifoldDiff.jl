@@ -14,6 +14,7 @@ using ManifoldsBase:
     TangentSpaceType,
     PowerManifoldNested,
     PowerManifoldNestedReplacing,
+    Weingarten,
     allocate_result,
     get_iterator,
     _write,
