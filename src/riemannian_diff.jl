@@ -353,7 +353,7 @@ The Riemannian Hessian is then computed by
 ```
 
 where ``N_p\mathcal M`` denotes the normal space, i.e. the orthogonal complement of the tangent space in the embedding,
-and ``\mathcal W_p`` denotes the [`Weingarten`]() map.
+and ``\mathcal W_p`` denotes the [`Weingarten`](https://juliamanifolds.github.io/ManifoldsBase.jl/stable/functions/#ManifoldsBase.Weingarten-Tuple{AbstractManifold,%20Any,%20Any,%20Any}) map. See [Boumal:2023](@cite) for more details
 
 The function is inspired by `ehess2rhess` in the [Matlab package Manopt](https://manopt.org).
 """
@@ -363,7 +363,7 @@ function riemannian_Hessian(M::AbstractManifold, p, eG, eH, X)
     return Y
 end
 function riemannian_Hessian!(M::AbstractManifold, Y, p, eG, eH, X)
-    project!(M, Y, p, eH) #first term
-    Y .= Y + Weingarten(M, p, X, eG - project(M, p, eG))
+    project!(M, Y, p, eH) #first term - project the Euclidean Hessian
+    copyto!(M, p, Y, Y + Weingarten(M, p, X, eG - project(M, p, eG)))
     return Y
 end
