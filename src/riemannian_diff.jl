@@ -364,6 +364,6 @@ function riemannian_Hessian(M::AbstractManifold, p, eG, eH, X)
 end
 function riemannian_Hessian!(M::AbstractManifold, Y, p, eG, eH, X)
     project!(M, Y, p, eH) #first term - project the Euclidean Hessian
-    copyto!(M, Y, p, Y + Weingarten(M, p, X, eG - project(M, p, eG)))
+    Y .+= Weingarten(M, p, X, eG - project(M, p, eG))
     return Y
 end
