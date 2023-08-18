@@ -15,14 +15,7 @@ Private = true
 
 ```@autodocs
 Modules = [ManifoldDiff]
-Pages = ["adjoint_differentials.jl"]
-Order = [:type, :function, :constant]
-Private = true
-```
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["differentials.jl"]
+Pages = ["adjoint_differentials.jl","differentials.jl"]
 Order = [:type, :function, :constant]
 Private = true
 ```
