@@ -1,9 +1,6 @@
-using Manifolds
-using ManifoldsBase
-
+using Manifolds, ManifoldDiff, ManifoldsBase, Test
 import ManifoldsBase: Weingarten!
-
-Weingarten!(::Sphere, Y, p::Array, X, V) = (Y .= -X * p' * V)
+Weingarten!(::Sphere, Y::Vector, p::Vector, X::Vector, V::Vector) = (Y .= -X * (p' * V))
 
 @testset "Gradients" begin
     M = Sphere(2)
@@ -37,7 +34,7 @@ Weingarten!(::Sphere, Y, p::Array, X, V) = (Y .= -X * p' * V)
         A = [1.0 0.1 0.2; 0.1 2.0 0.3; 0.2 0.3 3.0]
         ef(E, p) = 1 / 2 * p'A * p
         grad_ef(E, p) = A * p
-        grad_f(M, p) = (A * p - (p'A * p) * p)
+        grad_f(M, p) = A * p - (p'A * p) * p
         Hess_ef(E, p, X) = A * X
         Hess_f(M, p, X) = A * X - (p' * A * X) .* p - (p' * A * p) .* X
 
