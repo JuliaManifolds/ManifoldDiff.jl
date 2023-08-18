@@ -14,6 +14,7 @@ using ManifoldsBase:
     TangentSpaceType,
     PowerManifoldNested,
     PowerManifoldNestedReplacing,
+    Weingarten,
     allocate_result,
     get_iterator,
     _write,
@@ -203,7 +204,7 @@ function __init__()
     # There is likely no way to set defaults without Requires.jl
     @require FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000" begin
         if default_differential_backend() === NoneDiffBackend()
-            set_default_differential_backend!(FiniteDifferencesBackend())
+            set_default_differential_backend!(FiniteDifferencesBackend()) #This expects a method in the inner ()?
         end
     end
 
@@ -240,4 +241,6 @@ include("forward_diff.jl")
 include("reverse_diff.jl")
 include("zygote.jl")
 
+export riemannian_gradient, riemannian_gradient!, riemannian_Hessian, riemannian_Hessian!
+export set_default_differential_backend!, default_differential_backend
 end # module

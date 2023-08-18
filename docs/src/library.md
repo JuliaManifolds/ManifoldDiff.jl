@@ -15,14 +15,7 @@ Private = true
 
 ```@autodocs
 Modules = [ManifoldDiff]
-Pages = ["adjoint_differentials.jl"]
-Order = [:type, :function, :constant]
-Private = true
-```
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["differentials.jl"]
+Pages = ["adjoint_differentials.jl","differentials.jl"]
 Order = [:type, :function, :constant]
 Private = true
 ```
@@ -57,48 +50,4 @@ Order = [:type, :function, :constant]
 Modules = [ManifoldDiff]
 Pages = ["riemannian_diff.jl"]
 Order = [:type, :function, :constant]
-```
-
-## Manifold-specific specializations
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["manifolds.jl"]
-Order = [:type, :function, :constant]
-```
-
-## Differentiation backends
-
-### EmbeddedDiff
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["embedded_diff.jl"]
-Order = [:type, :function, :constant]
-```
-
-### ForwardDiff.jl
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["forward_diff.jl"]
-Order = [:type, :function, :constant]
-```
-
-### FiniteDifferenes.jl
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["finite_differences.jl"]
-Order = [:type, :function, :constant]
-```
-
-## Internal functions
-
-```@autodocs
-Modules = [ManifoldDiff]
-Pages = ["ManifoldDiff.jl"]
-Order = [:type, :function, :constant]
-Private = true
-Public=false
 ```

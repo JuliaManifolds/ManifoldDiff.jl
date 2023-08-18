@@ -132,17 +132,12 @@ function differential_exp_argument_lie_approx! end
     )
 
 Approximate the differential of the inverse retraction `invretr` using a finite difference
-formula (see Eq. (16) in [^Zimmermann2019]):
+formula (see Eq. (16) in [Zimmermann:2020](@cite)
 ```math
 \frac{\operatorname{retr}^{-1}_q(\operatorname{retr}_p(hX)) - \operatorname{retr}^{-1}_q(\operatorname{retr}_p(-hX))}{2h}
 ```
 where ``h`` is the finite difference step `h`, ``\operatorname{retr}^{-1}`` is the inverse
 retraction `invretr` and ``\operatorname{retr}`` is the retraction `retr`.
-
-[^Zimmermann2019]:
-    > R. Zimmermann, “Hermite interpolation and data processing errors on Riemannian matrix
-    > manifolds,” arXiv:1908.05875 [cs, math], Sep. 2019,
-    > Available: http://arxiv.org/abs/1908.05875
 """
 function differential_inverse_retract_argument_fd_approx(
     M::AbstractManifold,
