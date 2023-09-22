@@ -24,7 +24,7 @@ for ``c\neq 1`` or ``p\neq  q``. Note that for the remaining case ``c=1``,
 * `c` – (`2`) the exponent of the distance,  i.e. the default is the distance
 * `atol` – (`0`) the tolerance to use when evaluating the distance between `p` and `q`.
 """
-function subgrad_distance(M, q, p, c::Int = 2; atol = zero(eltype(first(p))))
+function subgrad_distance(M, q, p, c::Int = 2; atol = zero(number_eltype(p)))
     if c == 2
         return -log(M, p, q)
     elseif c == 1 && distance(M, q, p) ≤ atol
@@ -33,10 +33,10 @@ function subgrad_distance(M, q, p, c::Int = 2; atol = zero(eltype(first(p))))
         return -distance(M, p, q)^(c - 2) * log(M, p, q)
     end
 end
-function subgrad_distance!(M, X, q, p, c::Int = 2; atol = zero(eltype(first(p))))
+function subgrad_distance!(M, X, q, p, c::Int = 2; atol = zero(number_eltype(p)))
     log!(M, X, p, q)
     if c == 2
-        X .*= -one(eltype(first(X)))
+        X .*= -one(number_eltype(X))
     elseif c == 1 && distance(M, q, p) ≤ atol
         normal_cone_vector!(M, X, p)
     else
@@ -46,7 +46,7 @@ function subgrad_distance!(M, X, q, p, c::Int = 2; atol = zero(eltype(first(p)))
 end
 function normal_cone_vector(M, p)
     Y = rand(M; vector_at = p)
-    if norm(M, p, Y) > one(eltype(first(Y)))
+    if norm(M, p, Y) > one(number_eltype(Y))
         Y ./= norm(M, p, Y)
         Y .*= rand()
     end
@@ -54,7 +54,7 @@ function normal_cone_vector(M, p)
 end
 function normal_cone_vector!(M, Y, p)
     ManifoldsBase.rand!(M, Y; vector_at = p)
-    if norm(M, p, Y) > one(eltype(first(Y)))
+    if norm(M, p, Y) > one(number_eltype(Y))
         Y ./= norm(M, p, Y)
         Y .*= rand()
     end
