@@ -241,6 +241,11 @@ include("forward_diff.jl")
 include("reverse_diff.jl")
 include("zygote.jl")
 
-export riemannian_gradient, riemannian_gradient!, riemannian_Hessian, riemannian_Hessian!
+export riemannian_gradient,
+    riemannian_gradient!,
+    riemannian_Hessian,
+    riemannian_Hessian!,
+    subgrad_distance,
+    subgrad_distance!
 export set_default_differential_backend!, default_differential_backend
 end # module
