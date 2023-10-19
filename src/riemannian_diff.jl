@@ -191,14 +191,7 @@ Then we require three tools
   the inner product from restriction of the inner product from the tangent space ``T_pℝ^m``
   of the embedding
 
-see also [`riemannian_gradient`](@ref) and [^AbsilMahonySepulchre2008], Section 3.6.1 for a derivation on submanifolds.
-
-[^AbsilMahonySepulchre2008]:
-    > Absil, P.-A., Mahony, R. and Sepulchre R.,
-    > _Optimization Algorithms on Matrix Manifolds_
-    > Princeton University Press, 2008,
-    > doi: [10.1515/9781400830244](https://doi.org/10.1515/9781400830244)
-    > [open access](http://press.princeton.edu/chapters/absil/)
+see also [`riemannian_gradient`](@ref) and [AbsilMahonySepulchre:2008](@cite), Section 3.6.1 for a derivation on submanifolds.
 """
 struct RiemannianProjectionBackend{TADBackend<:AbstractDiffBackend} <:
        AbstractRiemannianDiffBackend
