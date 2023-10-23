@@ -13,7 +13,8 @@ ReverseDiff = "37e2e3b7-166d-5795-8a7a-e32c996b4267"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
-Documenter = "0.27"
+Documenter = "1"
+DocumenterCitations = "1.2.1"
 ManifoldDiff = "0.3"
-Manifolds = "0.8"
+Manifolds = "0.9"
 ManifoldsBase = "0.15"

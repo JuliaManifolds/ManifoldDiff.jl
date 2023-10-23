@@ -13,8 +13,7 @@ using Documenter, DocumenterCitations
 using FiniteDiff, ForwardDiff, ReverseDiff, FiniteDifferences, Zygote
 
 bib = CitationBibliography(joinpath(@__DIR__, "src", "references.bib"); style = :alpha)
-makedocs(
-    bib;
+makedocs(;
     format = Documenter.HTML(
         prettyurls = get(ENV, "CI", nothing) == "true",
         assets = ["assets/favicon.ico"],
@@ -39,7 +38,6 @@ makedocs(
     ],
     authors = "Seth Axen, Mateusz Baran, Ronny Bergmann, and contributors.",
     sitename = "ManifoldDiff.jl",
-    strict = Documenter.except(:autodocs_block),
     pages = [
         "Home" => "index.md",
         "Backends" => "backends.md",
@@ -47,6 +45,8 @@ makedocs(
         "Internals" => "internals.md",
         "Literature" => "references.md",
     ],
+    plugins = [bib],
+    warnonly = [:autodocs_block],
 )
 deploydocs(
     repo = "github.com/JuliaManifolds/ManifoldDiff.jl.git",
