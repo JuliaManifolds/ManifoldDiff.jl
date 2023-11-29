@@ -171,6 +171,7 @@ include("derivatives.jl")
 include("differentials.jl")
 include("gradients.jl")
 include("Jacobi_fields.jl")
+include("proximal_maps.jl")
 include("subgradients.jl")
 
 include("riemannian_diff.jl")
