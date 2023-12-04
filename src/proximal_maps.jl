@@ -15,6 +15,8 @@ For the in-place variant the computation is done in place of `q`.
 
 # Output
 * `q` – the result of the proximal map of ``φ``
+
+For more details see [WeinmannDemaretStorath:2014](@cite)
 """
 function prox_distance(M::AbstractManifold, λ, f, p, r::Int = 2)
     d = distance(M, f, p)
