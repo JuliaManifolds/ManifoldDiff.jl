@@ -51,3 +51,11 @@ Modules = [ManifoldDiff]
 Pages = ["riemannian_diff.jl"]
 Order = [:type, :function, :constant]
 ```
+
+## Proximal Maps
+
+```@autodocs
+Modules = [ManifoldDiff]
+Pages = ["proximal_maps.jl"]
+Order = [:type, :function, :constant]
+```
