@@ -54,14 +54,14 @@ Order = [:type, :function, :constant]
 
 ## Proximal Maps
 
-Given a function ``f\colon \mathcal M \to \mathbb R``, its proximal map is defined
+Given a convex, lower semi-continuous function ``f\colon \mathcal M \to \mathbb R``, its proximal map is defined
 for some ``λ>0`` as [Bacak:2014](@cite)
 
 ```math
 \operatorname{prox}_{λf}(p) := \operatorname*{arg\,min}_{q\in\mathcal M} \frac{1}{2λ}d^2_{\mathcal M}(p,q) + f(q).
 ```
 
-Another name for the proximal map is _resolvent
+Another name for the proximal map is _resolvent_.
 Intuitively this means to minimize the function ``f`` while at the same timme “staying close”
 to the argument ``p``.
 
