@@ -7,7 +7,7 @@ if "--help" ∈ ARGS
         """
      docs/make.jl
 
-Render the `ManifoldDiff.jl` documenation with optinal arguments
+Render the `ManifoldDiff.jl` documentation with optional arguments
 
 Arguments
 * `--help`         - print this help and exit without rendering the documentation

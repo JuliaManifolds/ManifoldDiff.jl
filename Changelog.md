@@ -9,6 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* proximal map of the distance function
+* proximal map of the distance function, `prox_distance`, and its mutating variant, `prox_distance!`
 * this changelog
 * A GitHub Action to check that the Changelog is updated on every PR.
