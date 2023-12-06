@@ -54,6 +54,17 @@ Order = [:type, :function, :constant]
 
 ## Proximal Maps
 
+Given a function ``f\colon \mathcal M \to \mathbb R``, its proximal map is defined
+for some ``λ>0`` as [Bacak:2014](@cite)
+
+```math
+\operatorname*{prox}_{λf}(p) := \operatorname{arg\,min}_{q\in\mathcal M} d_{\mathcal M}(p,q) + f(q).
+```
+
+Another name for the proximal map is _resolvent
+Intuitively this means to minimize the function ``f`` while at the same timme “staying close”
+to the argument ``p``.
+
 ```@autodocs
 Modules = [ManifoldDiff]
 Pages = ["proximal_maps.jl"]
