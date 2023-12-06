@@ -58,7 +58,7 @@ Given a function ``f\colon \mathcal M \to \mathbb R``, its proximal map is defin
 for some ``λ>0`` as [Bacak:2014](@cite)
 
 ```math
-\operatorname*{prox}_{λf}(p) := \operatorname{arg\,min}_{q\in\mathcal M} d_{\mathcal M}(p,q) + f(q).
+\operatorname{prox}_{λf}(p) := \operatorname*{arg\,min}_{q\in\mathcal M} \frac{1}{2λ}d^2_{\mathcal M}(p,q) + f(q).
 ```
 
 Another name for the proximal map is _resolvent
