@@ -14,7 +14,7 @@ For the in-place variant the computation is done in place of `q`.
 * `r`      (`2`) exponent of the distance.
 
 # Output
-* `q` – the result of the proximal map of ``φ``
+* `q` – the result of the proximal map of ``f``
 
 For more details see [WeinmannDemaretStorath:2014](@cite)
 """
