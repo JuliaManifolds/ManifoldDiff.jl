@@ -1,9 +1,9 @@
 @doc raw"""
-    y = prox_distance(M, λ, p_data, p [, r=2])
-    prox_distance!(M, q, λ, p_data, p [, r=2])
+    y = prox_distance(M::AbstractManifold, λ::Real, p_data, p [, r=2])
+    prox_distance!(M::AbstractManifold, q, λ::Real, p_data, p [, r=2])
 
 Compute the proximal map ``\operatorname{prox}_{λf}`` with
-parameter λ of ``f(p) = \frac{1}{r}d_{\mathcal M}^r(p_data,p)``.
+parameter λ of ``f(p) = \frac{1}{r}d_{\mathcal M}^r(p_{data},p)``.
 For the in-place variant the computation is done in place of `q`.
 
 # Input
@@ -27,13 +27,13 @@ function prox_distance(M::AbstractManifold, λ::Real, p_data, p, r::Int = 2)
     else
         throw(
             ErrorException(
-                "Proximal Map of distance(M,f,x) not implemented for an exponent $(r) (requires 1 or 2)",
+                "Proximal Map of distance(M, p_data, p) not implemented for an exponent $(r) (requires 1 or 2)",
             ),
         )
     end
     return shortest_geodesic(M, p, p_data, t)
 end
-function prox_distance!(M::AbstractManifold, q, λ, p_data, p, r::Int = 2)
+function prox_distance!(M::AbstractManifold, q, λ,::Real p_data, p, r::Int = 2)
     d = distance(M, p_data, p)
     if r == 2
         t = λ / (1 + λ)
@@ -42,7 +42,7 @@ function prox_distance!(M::AbstractManifold, q, λ, p_data, p, r::Int = 2)
     else
         throw(
             ErrorException(
-                "Proximal Map of distance(M,f,x) not implemented for an exponent $(r) (requires 1 or 2)",
+                "Proximal Map of distance(M, p_data, p) not implemented for an exponent $(r) (requires 1 or 2)",
             ),
         )
     end
