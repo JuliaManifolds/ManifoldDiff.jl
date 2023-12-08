@@ -15,5 +15,6 @@ using RecursiveArrayTools
     include("manifold_specializations.jl")
     include("test_gradients.jl")
     include("test_derivatives.jl")
+    include("test_proximal_maps.jl")
     include("test_subgradients.jl")
 end
