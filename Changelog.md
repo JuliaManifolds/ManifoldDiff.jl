@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Compatibility with `RecursiveArrayTools` v3.
+* CI testing on Julia 1.10-RC.
 
 ## [0.3.9] - December 8, 2023
 
