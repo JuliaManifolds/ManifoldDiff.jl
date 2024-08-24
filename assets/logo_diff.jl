@@ -3,13 +3,13 @@ using Manifolds, LinearAlgebra, PGFPlotsX, Colors, Contour, Random
 #
 # Settings
 #
-dark_mode = false
+dark_mode = true
 
 line_offset_brightness = 0.25
 patch_opacity = 1.0
 interface_patch_opacity = 0.66
 #geo_opacity = dark_mode ? 0.66 : 0.5
-geo_opacity =  0.66
+geo_opacity = 0.66
 geo_line_width = 30
 mesh_line_width = 5
 mesh_opacity = dark_mode ? 0.5 : 0.7
@@ -135,6 +135,7 @@ base_points = [p1, p2, p3]
 basis_vectors = [log(S, p1, p2), log(S, p2, p1), log(S, p3, p1)]
 # Patches: 1=red, left, 2=green, top, 3=violet, right
 # Interface patches
+#=
 for i in [2,]
     b = base_points[i]
     B = DiagonalizingOrthonormalBasis(basis_vectors[i])
@@ -153,8 +154,9 @@ for i in [2,]
         }
     plot_patch!(tp, S, b, basis, 0.75 * π / 5, θs; options = optionsP)
 end
+=#
 # Manifold patches
-for i in [1,3] # green
+for i in [1, 3] # green
     x = base_points[i]
     B = DiagonalizingOrthonormalBasis(basis_vectors[i])
     basis = get_basis(S, x, B)
@@ -178,7 +180,7 @@ options = @pgf {
     roundcaps,
     line_width = geo_line_width,
     #color = dark_mode ? "white" : "black",
-    color = rgb_logo_colors[1]
+    color = rgb_logo_colors[1],
 }
 plot_geodesic!(tp, S, base_points[1], base_points[2]; options = options)
 plot_geodesic!(tp, S, base_points[1], base_points[3]; options = options)
@@ -187,7 +189,9 @@ plot_geodesic!(tp, S, base_points[2], base_points[3]; options = options)
 
 push!(
     tp,
-    raw"\node [scale=45, color="*"$(dark_mode ? "white" : "black")] at ($(p2[1]), $(p2[2]), $(p2[3])) "* raw"{$\nabla$};",
+    raw"\node [scale=60, yshift=.0325cm, xshift=.03cm, color=" *
+    "$(dark_mode ? "white" : "black")] at ($(p2[1]), $(p2[2]), $(p2[3])) " *
+    raw"{$\partial$};",
 )
 #push!(
 #    tp,
