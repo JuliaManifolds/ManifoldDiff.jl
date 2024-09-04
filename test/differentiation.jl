@@ -147,7 +147,7 @@ using LinearAlgebra: Diagonal, dot
             set_default_differential_backend!(backend)
             X = [-0.0 -0.0]
             @test _jacobian(f1, [1.0, -1.0]) ≈ [1.0 -2.0]
-            # The following seems not to worf for :central, but it does for forward
+            # The following seems not to work for :central, but it does for forward
             fdf = ManifoldDiff.FiniteDiffBackend(Val(:forward))
             @test_broken _jacobian!(f1!, X, [1.0, -1.0], fdf) === X
             @test_broken X ≈ [1.0 -2.0]
