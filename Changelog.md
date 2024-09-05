@@ -5,11 +5,11 @@ All notable changes to this Julia package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.12] unreleased
+## [0.3.12] September 5, 2024
 
 ### Added
 
-* an individual logo that still resembles the `Manifolds.jl` family but also features a ∂.s
+* an individual logo that still resembles the `Manifolds.jl` family but also features a ∂.
 
 ## [0.3.11] August 28, 2024
 
