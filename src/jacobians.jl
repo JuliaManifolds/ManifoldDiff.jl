@@ -48,7 +48,7 @@ in the domain and in `Bval` in the codomain.
 function jacobian_exp_argument(
     M::AbstractManifold,
     p,
-    X;
+    X,
     Barg::AbstractBasis = DefaultOrthonormalBasis(),
     Bval::AbstractBasis = DefaultOrthonormalBasis(),
 )
@@ -137,7 +137,7 @@ in the domain and in `Bval` in the codomain.
 function jacobian_log_argument(
     M::AbstractManifold,
     p,
-    q;
+    q,
     Barg::AbstractBasis = DefaultOrthonormalBasis(),
     Bval::AbstractBasis = DefaultOrthonormalBasis(),
 )
