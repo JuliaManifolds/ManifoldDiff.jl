@@ -173,6 +173,7 @@ include("gradients.jl")
 include("Jacobi_fields.jl")
 include("proximal_maps.jl")
 include("subgradients.jl")
+include("jacobians.jl")
 
 include("riemannian_diff.jl")
 include("embedded_diff.jl")
