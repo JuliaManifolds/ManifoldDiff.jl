@@ -44,6 +44,14 @@ Pages = ["Jacobi_fields.jl"]
 Order = [:type, :function, :constant]
 ```
 
+## Jacobians
+
+```@autodocs
+Modules = [ManifoldDiff]
+Pages = ["jacobians.jl"]
+Order = [:type, :function, :constant]
+```
+
 ## Riemannian differentials
 
 ```@autodocs
