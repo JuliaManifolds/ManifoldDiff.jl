@@ -17,4 +17,5 @@ using RecursiveArrayTools
     include("test_derivatives.jl")
     include("test_proximal_maps.jl")
     include("test_subgradients.jl")
+    include("test_jacobians.jl")
 end

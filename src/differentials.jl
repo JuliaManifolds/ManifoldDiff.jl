@@ -51,7 +51,7 @@ end
     Z = differential_exp_argument(M, p, X, Y)
     differential_exp_argument!(M, Z, p, X, Y)
 
-computes ``D_X\exp_pX[Y]`` (in place of `Z`).
+Compute ``D_X\exp_pX[Y]`` (in place of `Z`).
 Note that ``X ∈  T_X(T_p\mathcal M) = T_p\mathcal M`` is still a tangent vector.
 
 # See also

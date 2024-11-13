@@ -1,7 +1,7 @@
 name = "ManifoldDiff"
 uuid = "af67fdf4-a580-4b9f-bbec-742ef357defd"
 authors = ["Seth Axen <seth.axen@gmail.com>", "Mateusz Baran <mateuszbaran89@gmail.com>", "Ronny Bergmann <manopt@ronnybergmann.net>"]
-version = "0.3.12"
+version = "0.3.13"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"

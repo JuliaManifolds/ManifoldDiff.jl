@@ -14,5 +14,7 @@ For example
 * `adjoint_differential_f` for pullbacks
 * `adjoint_differential_f_variable` if `f` has multiple variables / parameters
 * `f_derivative` for ``f'``
+* `jacobian_f` for Jacobian matrix of ``f``.
+* `jacobian_f_variable` if `f` has multiple parameters.
 
 the scheme is not completely fixed but tries to follow the mathematical notation.
