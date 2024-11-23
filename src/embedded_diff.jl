@@ -1,5 +1,5 @@
 """
-    ExplicitEmbeddedBackend{TF<:NamedTuple} <: AbstractDiffBackend
+    ExplicitEmbeddedBackend{TF<:NamedTuple}
 
 A backend to use with the [`RiemannianProjectionBackend`](@ref) or the [`TangentDiffBackend`](@ref),
 when you have explicit formulae for the gradient in the embedding available.
@@ -16,7 +16,7 @@ where currently the following keywords may be used
 
 Note that the gradient functions are defined on the embedding manifold `M` passed to the Backend as well
 """
-struct ExplicitEmbeddedBackend{TM<:AbstractManifold,TF<:NamedTuple} <: AbstractDiffBackend
+struct ExplicitEmbeddedBackend{TM<:AbstractManifold,TF<:NamedTuple}
     manifold::TM
     functions::TF
 end

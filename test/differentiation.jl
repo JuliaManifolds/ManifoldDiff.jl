@@ -24,81 +24,80 @@ using ManifoldDiff: ExplicitEmbeddedBackend
 
 import ManifoldDiff: gradient
 
+using ADTypes
+
 struct TestRiemannianBackend <: AbstractRiemannianDiffBackend end
 function ManifoldDiff.gradient(::AbstractManifold, f, p, ::TestRiemannianBackend)
     return collect(1.0:length(p))
 end
 
-using FiniteDifferences
+using FiniteDifferences: central_fdm
 using LinearAlgebra: Diagonal, dot
 
 @testset "Differentiation backend" begin
-    fd51 = ManifoldDiff.FiniteDifferencesBackend()
+    fd51 = AutoFiniteDifferences(central_fdm(5, 1))
     @testset "default_differential_backend" begin
         #ForwardDiff is loaded first utils.
-        @test default_differential_backend() === ManifoldDiff.ForwardDiffBackend()
+        @test default_differential_backend() isa AutoForwardDiff
 
-        @test length(fd51.method.grid) == 5
+        @test length(fd51.fdm.grid) == 5
         # check method order
-        @test typeof(fd51.method).parameters[2] == 1
-        fd71 = ManifoldDiff.FiniteDifferencesBackend(central_fdm(7, 1))
+        @test typeof(fd51.fdm).parameters[2] == 1
+        fd71 = AutoFiniteDifferences(central_fdm(7, 1))
         @test set_default_differential_backend!(fd71) == fd71
         @test default_differential_backend() == fd71
     end
 
-    using ForwardDiff
+    using ForwardDiff: ForwardDiff
 
-    fwd_diff = ManifoldDiff.ForwardDiffBackend()
+    fwd_diff = AutoForwardDiff()
     @testset "ForwardDiff" begin
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test default_differential_backend() isa AutoFiniteDifferences
 
         @test set_default_differential_backend!(fwd_diff) == fwd_diff
         @test default_differential_backend() == fwd_diff
-        @test set_default_differential_backend!(fd51) isa
-              ManifoldDiff.FiniteDifferencesBackend
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test set_default_differential_backend!(fd51) isa AutoFiniteDifferences
+        @test default_differential_backend() isa AutoFiniteDifferences
 
         set_default_differential_backend!(fwd_diff)
         @test default_differential_backend() == fwd_diff
         set_default_differential_backend!(fd51)
     end
 
-    using FiniteDiff
+    using FiniteDiff: FiniteDiff
 
-    finite_diff = ManifoldDiff.FiniteDiffBackend()
+    finite_diff = AutoFiniteDiff()
     @testset "FiniteDiff" begin
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test default_differential_backend() isa AutoFiniteDifferences
 
         @test set_default_differential_backend!(finite_diff) == finite_diff
         @test default_differential_backend() == finite_diff
-        @test set_default_differential_backend!(fd51) isa
-              ManifoldDiff.FiniteDifferencesBackend
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test set_default_differential_backend!(fd51) isa AutoFiniteDifferences
+        @test default_differential_backend() isa AutoFiniteDifferences
 
         set_default_differential_backend!(finite_diff)
         @test default_differential_backend() == finite_diff
         set_default_differential_backend!(fd51)
     end
 
-    using ReverseDiff
+    using ReverseDiff: ReverseDiff
 
-    reverse_diff = ManifoldDiff.ReverseDiffBackend()
+    reverse_diff = AutoReverseDiff()
     @testset "ReverseDiff" begin
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test default_differential_backend() isa AutoFiniteDifferences
 
         @test set_default_differential_backend!(reverse_diff) == reverse_diff
         @test default_differential_backend() == reverse_diff
-        @test set_default_differential_backend!(fd51) isa
-              ManifoldDiff.FiniteDifferencesBackend
-        @test default_differential_backend() isa ManifoldDiff.FiniteDifferencesBackend
+        @test set_default_differential_backend!(fd51) isa AutoFiniteDifferences
+        @test default_differential_backend() isa AutoFiniteDifferences
 
         set_default_differential_backend!(reverse_diff)
         @test default_differential_backend() == reverse_diff
         set_default_differential_backend!(fd51)
     end
 
-    using Zygote
-    zygote_diff = ManifoldDiff.ZygoteDiffBackend()
+    using Zygote: Zygote
+    zygote_diff = AutoZygote()
 
     @testset "gradient" begin
         set_default_differential_backend!(fd51)
@@ -115,40 +114,40 @@ using LinearAlgebra: Diagonal, dot
 
         @testset "Inference" begin
             X = [-1.0, -1.0]
-            @test (@inferred _derivative(c1, 0.0, ManifoldDiff.ForwardDiffBackend())) ≈
-                  [1.0, 0.0]
-            @test (@inferred _derivative!(
-                c1,
-                X,
-                0.0,
-                ManifoldDiff.ForwardDiffBackend(),
-            )) === X
+            @test (@inferred _derivative(c1, 0.0, AutoForwardDiff())) ≈ [1.0, 0.0]
+            @test (@inferred _derivative!(c1, X, 0.0, AutoForwardDiff())) === X
             @test X ≈ [1.0, 0.0]
 
             @test (@inferred _derivative(c1, 0.0, finite_diff)) ≈ [1.0, 0.0]
             @test (@inferred _gradient(f1, [1.0, -1.0], finite_diff)) ≈ [1.0, -2.0]
         end
 
-        @testset for backend in [fd51, fwd_diff, finite_diff]
+        @testset "$(nameof(typeof(backend)))" for backend in [fd51, fwd_diff, finite_diff]
             set_default_differential_backend!(backend)
             @test _derivative(c1, 0.0) ≈ [1.0, 0.0]
             X = [-1.0, -1.0]
             @test _derivative!(c1, X, 0.0) === X
             @test isapprox(X, [1.0, 0.0])
         end
-        @testset for backend in [fd51, fwd_diff, finite_diff, reverse_diff, zygote_diff]
+        @testset "$(nameof(typeof(backend)))" for backend in [
+            fd51,
+            fwd_diff,
+            finite_diff,
+            reverse_diff,
+            zygote_diff,
+        ]
             set_default_differential_backend!(backend)
             X = [-1.0, -1.0]
             @test _gradient(f1, [1.0, -1.0]) ≈ [1.0, -2.0]
             @test _gradient!(f1, X, [1.0, -1.0]) === X
             @test X ≈ [1.0, -2.0]
         end
-        @testset for backend in [finite_diff]
+        @testset "$(nameof(typeof(backend)))" for backend in [finite_diff]
             set_default_differential_backend!(backend)
             X = [-0.0 -0.0]
             @test _jacobian(f1, [1.0, -1.0]) ≈ [1.0 -2.0]
             # The following seems not to work for :central, but it does for forward
-            fdf = ManifoldDiff.FiniteDiffBackend(Val(:forward))
+            fdf = AutoFiniteDiff()
             @test_broken _jacobian!(f1!, X, [1.0, -1.0], fdf) === X
             @test_broken X ≈ [1.0 -2.0]
         end
@@ -159,7 +158,7 @@ using LinearAlgebra: Diagonal, dot
         _jacobian!(c1, jac, 0.0, fd51)
         @test jac ≈ [1.0; 0.0]
 
-        @testset for backend in [fd51, ManifoldDiff.ForwardDiffBackend()]
+        @testset "$(nameof(typeof(backend)))" for backend in [fd51, AutoForwardDiff()]
             @test _derivative(c1, 0.0, backend) ≈ [1.0, 0.0]
             @test _gradient(f1, [1.0, -1.0], backend) ≈ [1.0, -2.0]
         end
@@ -176,11 +175,11 @@ rb_onb_default = TangentDiffBackend(
     DefaultOrthonormalBasis(),
 )
 
-rb_onb_fd51 = TangentDiffBackend(ManifoldDiff.FiniteDifferencesBackend())
+rb_onb_fd51 = TangentDiffBackend(AutoFiniteDifferences(central_fdm(5, 1)))
 
-rb_onb_fwd_diff = TangentDiffBackend(ManifoldDiff.ForwardDiffBackend())
+rb_onb_fwd_diff = TangentDiffBackend(AutoForwardDiff())
 
-rb_onb_finite_diff = TangentDiffBackend(ManifoldDiff.FiniteDiffBackend())
+rb_onb_finite_diff = TangentDiffBackend(AutoFiniteDiff())
 
 rb_onb_default2 = TangentDiffBackend(
     default_differential_backend();

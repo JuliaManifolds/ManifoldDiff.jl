@@ -2,8 +2,8 @@
 using Test
 using LinearAlgebra
 using ManifoldDiff
-using ForwardDiff
-using FiniteDifferences
+using ForwardDiff: ForwardDiff
+using FiniteDifferences: FiniteDifferences
 using Manifolds
 using ManifoldsBase
 using RecursiveArrayTools

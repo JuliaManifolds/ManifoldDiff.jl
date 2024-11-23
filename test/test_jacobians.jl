@@ -1,5 +1,5 @@
 using Manifolds, ManifoldsBase, ManifoldDiff, Test
-using FiniteDifferences
+using FiniteDifferences: FiniteDifferences
 
 function finitedifferences_jacobian(
     M_arg::AbstractManifold,
