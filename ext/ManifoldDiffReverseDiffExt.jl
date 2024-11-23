@@ -1,16 +1,8 @@
 module ManifoldDiffReverseDiffExt
 
-if isdefined(Base, :get_extension)
-    using ManifoldDiff
-    using ManifoldDiff: ReverseDiffBackend
-    using ReverseDiff
-else
-    # imports need to be relative for Requires.jl-based workflows:
-    # https://github.com/JuliaArrays/ArrayInterface.jl/pull/387
-    using ..ManifoldDiff
-    using ..ManifoldDiff: ReverseDiffBackend
-    using ..ReverseDiff
-end
+using ManifoldDiff
+using ManifoldDiff: ReverseDiffBackend
+using ReverseDiff
 
 function ManifoldDiff._gradient(f, p, ::ReverseDiffBackend)
     return ReverseDiff.gradient(f, p)
