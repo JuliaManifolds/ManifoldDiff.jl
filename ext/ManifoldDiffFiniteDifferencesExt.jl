@@ -1,16 +1,8 @@
 module ManifoldDiffFiniteDifferencesExt
 
-if isdefined(Base, :get_extension)
-    using ManifoldDiff
-    using ManifoldDiff: FiniteDifferencesBackend
-    using FiniteDifferences
-else
-    # imports need to be relative for Requires.jl-based workflows:
-    # https://github.com/JuliaArrays/ArrayInterface.jl/pull/387
-    using ..ManifoldDiff
-    using ..ManifoldDiff: FiniteDifferencesBackend
-    using ..FiniteDifferences
-end
+using ManifoldDiff
+using ManifoldDiff: FiniteDifferencesBackend
+using FiniteDifferences
 
 function ManifoldDiff.FiniteDifferencesBackend()
     return FiniteDifferencesBackend(central_fdm(5, 1))

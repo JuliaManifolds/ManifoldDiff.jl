@@ -181,28 +181,6 @@ include("embedded_diff.jl")
 
 
 function __init__()
-    @static if !isdefined(Base, :get_extension)
-        @require FiniteDiff = "6a86dc24-6348-571c-b903-95158fe2bd41" begin
-            include("../ext/ManifoldDiffFiniteDiffExt.jl")
-        end
-
-        @require FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000" begin
-            include("../ext/ManifoldDiffFiniteDifferencesExt.jl")
-        end
-
-        @require ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210" begin
-            include("../ext/ManifoldDiffForwardDiffExt.jl")
-        end
-
-        @require ReverseDiff = "37e2e3b7-166d-5795-8a7a-e32c996b4267" begin
-            include("../ext/ManifoldDiffReverseDiffExt.jl")
-        end
-
-        @require Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f" begin
-            include("../ext//ManifoldDiffZygoteExt.jl")
-        end
-    end
-
     # There is likely no way to set defaults without Requires.jl
     @require FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000" begin
         if default_differential_backend() === NoneDiffBackend()
