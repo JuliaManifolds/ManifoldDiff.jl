@@ -1,7 +1,7 @@
 name = "ManifoldDiff"
 uuid = "af67fdf4-a580-4b9f-bbec-742ef357defd"
 authors = ["Seth Axen <seth.axen@gmail.com>", "Mateusz Baran <mateuszbaran89@gmail.com>", "Ronny Bergmann <manopt@ronnybergmann.net>"]
-version = "0.4.0"
+version = "0.3.14"
 
 [deps]
 ADTypes = "47edcb42-4c32-4615-8424-f2b9edc5f35b"
