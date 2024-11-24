@@ -43,6 +43,7 @@ FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 Manifolds = "1cead3c2-87b3-11e9-0ccd-23c62b72b94e"
 OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 RecursiveArrayTools = "731186ca-8d62-57ce-b412-fbd966d074cd"
 ReverseDiff = "37e2e3b7-166d-5795-8a7a-e32c996b4267"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
@@ -50,4 +51,21 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [targets]
-test = ["Test", "ADTypes", "ChainRules", "ChainRulesCore", "DifferentiationInterface", "DoubleFloats", "FiniteDiff", "FiniteDifferences", "ForwardDiff", "Manifolds", "OrdinaryDiffEq", "RecursiveArrayTools", "ReverseDiff", "StaticArrays", "Zygote"]
+test = [
+    "Test",
+    "ADTypes",
+    "ChainRules",
+    "ChainRulesCore",
+    "DifferentiationInterface",
+    "DoubleFloats",
+    "FiniteDiff",
+    "FiniteDifferences",
+    "ForwardDiff",
+    # "Manifolds",  # TODO: toggle once tests pass
+    "OrdinaryDiffEq",
+    "Pkg",
+    "RecursiveArrayTools",
+    "ReverseDiff",
+    "StaticArrays",
+    "Zygote",
+]

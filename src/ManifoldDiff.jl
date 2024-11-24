@@ -31,8 +31,6 @@ using ADTypes:
     AutoZygote
 import DifferentiationInterface as DI
 
-const AbstractDiffBackend = Any  # TODO: find a better fix
-
 struct NoneDiffBackend end
 
 """

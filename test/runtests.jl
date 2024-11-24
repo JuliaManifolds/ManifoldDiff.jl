@@ -4,6 +4,9 @@ using LinearAlgebra
 using ManifoldDiff
 using ForwardDiff: ForwardDiff
 using FiniteDifferences: FiniteDifferences
+# TODO: toggle once tests pass
+using Pkg
+Pkg.add(url = "https://github.com/gdalle/Manifolds.jl", rev = "gd/manifoldsdiff_update")
 using Manifolds
 using ManifoldsBase
 using RecursiveArrayTools
@@ -18,4 +21,4 @@ using RecursiveArrayTools
     include("test_proximal_maps.jl")
     include("test_subgradients.jl")
     include("test_jacobians.jl")
-end
+end;
