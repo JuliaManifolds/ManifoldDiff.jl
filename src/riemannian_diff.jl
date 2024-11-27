@@ -7,8 +7,8 @@ An abstract type for backends for differentiation.
 abstract type AbstractRiemannianDiffBackend end
 
 @doc raw"""
-    differential(M::AbstractManifold, f, t::Real, backend::AbstractDiffBackend)
-    differential!(M::AbstractManifold, f, X, t::Real, backend::AbstractDiffBackend)
+    differential(M::AbstractManifold, f, t::Real, backend)
+    differential!(M::AbstractManifold, f, X, t::Real, backend)
 
 Compute the Riemannian differential of a curve $f: ℝ\to M$ on a manifold `M`
 represented by function `f` at time `t` using the given backend.
@@ -52,14 +52,13 @@ intrinsic differentiation scheme.
 Since it works in tangent spaces at argument and function value, methods might require a
 retraction and an inverse retraction as well as a basis.
 
-In the tangent space itself, this backend then employs an (Euclidean)
-[`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend)
+In the tangent space itself, this backend then employs a (Euclidean) backend.
 
 # Constructor
 
     TangentDiffBackend(diff_backend)
 
-where `diff_backend` is an [`AbstractDiffBackend`](@ref ManifoldDiff.AbstractDiffBackend) to be used on the tangent space.
+where `diff_backend` is a (Euclidean) backend to be used on the tangent space.
 
 With the keyword arguments
 
@@ -69,7 +68,7 @@ With the keyword arguments
 * `basis_val` an [AbstractBasis](https://juliamanifolds.github.io/ManifoldsBase.jl/stable/bases.html) (`DefaultOrthogonalBasis` by default)
 """
 struct TangentDiffBackend{
-    TAD<:AbstractDiffBackend,
+    TAD,
     TR<:AbstractRetractionMethod,
     TIR<:AbstractInverseRetractionMethod,
     TBarg<:AbstractBasis,
@@ -88,7 +87,7 @@ function TangentDiffBackend(
     basis_arg::TBarg = DefaultOrthonormalBasis(),
     basis_val::TBval = DefaultOrthonormalBasis(),
 ) where {
-    TAD<:AbstractDiffBackend,
+    TAD,
     TR<:AbstractRetractionMethod,
     TIR<:AbstractInverseRetractionMethod,
     TBarg<:AbstractBasis,
@@ -193,8 +192,7 @@ Then we require three tools
 
 see also [`riemannian_gradient`](@ref) and [AbsilMahonySepulchre:2008](@cite), Section 3.6.1 for a derivation on submanifolds.
 """
-struct RiemannianProjectionBackend{TADBackend<:AbstractDiffBackend} <:
-       AbstractRiemannianDiffBackend
+struct RiemannianProjectionBackend{TADBackend} <: AbstractRiemannianDiffBackend
     diff_backend::TADBackend
 end
 

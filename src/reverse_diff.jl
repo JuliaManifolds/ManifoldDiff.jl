@@ -1,1 +1,0 @@
-struct ReverseDiffBackend <: AbstractDiffBackend end

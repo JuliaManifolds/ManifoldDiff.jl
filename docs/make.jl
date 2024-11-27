@@ -28,7 +28,6 @@ end
 
 using ManifoldsBase, ManifoldDiff
 using Documenter, DocumenterCitations
-using FiniteDiff, ForwardDiff, ReverseDiff, FiniteDifferences, Zygote
 
 bib = CitationBibliography(joinpath(@__DIR__, "src", "references.bib"); style = :alpha)
 makedocs(;
@@ -36,24 +35,7 @@ makedocs(;
         prettyurls = (get(ENV, "CI", nothing) == "true") || ("--prettyurls" ∈ ARGS),
         assets = ["assets/favicon.ico", "assets/citations.css"],
     ),
-    modules = [
-        ManifoldDiff,
-        isdefined(Base, :get_extension) ?
-        Base.get_extension(ManifoldDiff, :ManifoldDiffFiniteDiffExt) :
-        ManifoldDiff.ManifoldDiffFiniteDiffExt,
-        isdefined(Base, :get_extension) ?
-        Base.get_extension(ManifoldDiff, :ManifoldDiffFiniteDifferencesExt) :
-        ManifoldDiff.ManifoldDiffFiniteDifferencesExt,
-        isdefined(Base, :get_extension) ?
-        Base.get_extension(ManifoldDiff, :ManifoldDiffForwardDiffExt) :
-        ManifoldDiff.ManifoldDiffForwardDiffExt,
-        isdefined(Base, :get_extension) ?
-        Base.get_extension(ManifoldDiff, :ManifoldDiffReverseDiffExt) :
-        ManifoldDiff.ManifoldDiffReverseDiffExt,
-        isdefined(Base, :get_extension) ?
-        Base.get_extension(ManifoldDiff, :ManifoldDiffZygoteExt) :
-        ManifoldDiff.ManifoldDiffZygoteExt,
-    ],
+    modules = [ManifoldDiff],
     authors = "Seth Axen, Mateusz Baran, Ronny Bergmann, and contributors.",
     sitename = "ManifoldDiff.jl",
     pages = [
