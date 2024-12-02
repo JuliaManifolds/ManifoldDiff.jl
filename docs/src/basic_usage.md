@@ -8,9 +8,9 @@ using ManifoldDiff
 using DifferentiationInterface
 using Manifolds, FiniteDifferences, ForwardDiff, Zygote
 
-rb_onb_fd51 = ManifoldDiff.TangentDiffBackend(AutoFiniteDifferences(central_fdm(5, 1)))
-rb_onb_fwdd = ManifoldDiff.TangentDiffBackend(AutoForwardDiff())
-rb_proj_zyg = ManifoldDiff.RiemannianProjectionBackend(AutoZygote())
+rb_onb_fd51 = TangentDiffBackend(AutoFiniteDifferences(central_fdm(5, 1)))
+rb_onb_fwdd = TangentDiffBackend(AutoForwardDiff())
+rb_proj_zyg = RiemannianProjectionBackend(AutoZygote())
 
 s2 = Sphere(2)
 
