@@ -16,9 +16,7 @@ using ManifoldDiff:
     _jacobian,
     _jacobian!,
     set_default_differential_backend!,
-    AbstractRiemannianDiffBackend,
-    TangentDiffBackend,
-    RiemannianProjectionBackend
+    AbstractRiemannianDiffBackend
 
 using ManifoldDiff: ExplicitEmbeddedBackend
 
