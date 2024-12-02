@@ -40,6 +40,7 @@ makedocs(;
     sitename = "ManifoldDiff.jl",
     pages = [
         "Home" => "index.md",
+        "Usage" => "basic_usage.md",
         "Backends" => "backends.md",
         "Library of functions" => "library.md",
         "Internals" => "internals.md",

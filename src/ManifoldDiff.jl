@@ -215,4 +215,7 @@ export riemannian_gradient,
     subgrad_distance,
     subgrad_distance!
 export set_default_differential_backend!, default_differential_backend
+
+export TangentDiffBackend, RiemannianProjectionBackend
+
 end # module
