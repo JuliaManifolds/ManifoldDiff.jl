@@ -6,10 +6,11 @@ For example, `rb_onb_fd51` corresponds to a finite differencing scheme and `rb_o
 ```@example
 using ManifoldDiff
 using DifferentiationInterface
-using Manifolds, FiniteDifferences, ForwardDiff
+using Manifolds, FiniteDifferences, ForwardDiff, Zygote
 
 rb_onb_fd51 = ManifoldDiff.TangentDiffBackend(AutoFiniteDifferences(central_fdm(5, 1)))
 rb_onb_fwdd = ManifoldDiff.TangentDiffBackend(AutoForwardDiff())
+rb_proj_zyg = ManifoldDiff.RiemannianProjectionBackend(AutoZygote())
 
 s2 = Sphere(2)
 
@@ -20,6 +21,7 @@ q = [0.0, 1.0, 0.0]
 
 println(ManifoldDiff.gradient(s2, f, q, rb_onb_fd51))
 println(ManifoldDiff.gradient(s2, f, q, rb_onb_fwdd))
+println(ManifoldDiff.gradient(s2, f, q, rb_proj_zyg))
 ```
 
-`ManifoldDiff.jl` handles conversion of a Euclidean gradient in the embedding to the Riemannian one.
+`TangentDiffBackend` reduces dimensionality of the problem to the intrinsic dimension of the manifold, while `RiemannianProjectionBackend` relies on converting Euclidean gradient in the embedding to the Riemannian one.
