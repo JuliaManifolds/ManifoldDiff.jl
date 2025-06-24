@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Compatibility bounds for `FiniteDifferences.jl`, `FiniteDiff.jl`.
+* Compatibility bounds for `FiniteDifferences.jl` (0.12), `FiniteDiff.jl` (2.0), `ForwardDiff.jl` (0.10), `ReverseDiff.jl` (1.0), `Zygote.jl` (0.7).
 
 ## [0.4.2] February 5, 2025
 
