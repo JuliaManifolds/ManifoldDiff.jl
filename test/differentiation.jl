@@ -35,8 +35,8 @@ using LinearAlgebra: Diagonal, dot
 @testset "Differentiation backend" begin
     fd51 = AutoFiniteDifferences(central_fdm(5, 1))
     @testset "default_differential_backend" begin
-        #ForwardDiff is loaded first utils.
-        @test default_differential_backend() isa AutoForwardDiff
+        #FiniteDifferences is the default.
+        @test default_differential_backend() isa AutoFiniteDifferences
 
         @test length(fd51.fdm.grid) == 5
         # check method order
