@@ -16,7 +16,7 @@ Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 [compat]
 ChainRules = "1"
 ChainRulesCore = "1"
-DifferentiationInterface = "0.6"
+DifferentiationInterface = "0.6, 0.7"
 Documenter = "1"
 DocumenterCitations = "1.2.1"
 FiniteDiff = "2"
