@@ -27,7 +27,7 @@ DifferentiationInterface = "0.6.23, 0.7"
 DoubleFloats = ">= 0.9.2"
 FiniteDiff = "2"
 FiniteDifferences = "0.12"
-ForwardDiff = "0.10"
+ForwardDiff = "0.10, 1"
 Manifolds = "0.10"
 ManifoldsBase = "0.15, 1"
 RecursiveArrayTools = "2, 3"
@@ -55,20 +55,4 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [targets]
-test = [
-    "Test",
-    "ADTypes",
-    "ChainRules",
-    "ChainRulesCore",
-    "DifferentiationInterface",
-    "DoubleFloats",
-    "FiniteDiff",
-    "FiniteDifferences",
-    "ForwardDiff",
-    "Manifolds",
-    "OrdinaryDiffEq",
-    "RecursiveArrayTools",
-    "ReverseDiff",
-    "StaticArrays",
-    "Zygote",
-]
+test = ["Test", "ADTypes", "ChainRules", "ChainRulesCore", "DifferentiationInterface", "DoubleFloats", "FiniteDiff", "FiniteDifferences", "ForwardDiff", "Manifolds", "OrdinaryDiffEq", "RecursiveArrayTools", "ReverseDiff", "StaticArrays", "Zygote"]
