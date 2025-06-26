@@ -271,7 +271,11 @@ end
     f1(p) = distance(s2, q2, p)^2
 
     @test isapprox(ManifoldDiff.hessian(s2, f1, q, rb_onb_default), [2.0 0.0; 0.0 0.0])
-    @test isapprox(ManifoldDiff.hessian(s2, f1, q, rb_onb_fwd_diff), [2.0 0.0; 0.0 0.0])
+    # It used to work with ForwardDiff.jl v0.10 but broke with ForwardDiff.jl v1.
+    @test_broken isapprox(
+        ManifoldDiff.hessian(s2, f1, q, rb_onb_fwd_diff),
+        [2.0 0.0; 0.0 0.0],
+    )
 end
 
 @testset "EmbeddedBackend" begin
