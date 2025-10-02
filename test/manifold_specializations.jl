@@ -16,7 +16,6 @@ using ManifoldDiff:
           invoke(differential_exp_argument, Tuple{AbstractManifold,Any,Any,Any}, M, p, X, Y)
 
 
-    G = SpecialOrthogonal(3)
     p = Matrix(I, 3, 3)
 
     ω = [[1.0, 2.0, 3.0], [3.0, 2.0, 1.0], [1.0, 3.0, 2.0]]
