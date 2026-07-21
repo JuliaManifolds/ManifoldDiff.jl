@@ -18,4 +18,5 @@ using RecursiveArrayTools
     include("test_proximal_maps.jl")
     include("test_subgradients.jl")
     include("test_jacobians.jl")
+    include("test_cuda_ext.jl")
 end
